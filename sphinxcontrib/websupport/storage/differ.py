@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.storage.differ
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.storage.differ
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     A differ for creating an HTML representations of proposal diffs
 

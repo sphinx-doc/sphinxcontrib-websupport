@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport
-    ~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.core
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Base Module for web support functions.
 
@@ -22,9 +22,9 @@ from sphinx.locale import _
 from sphinx.util.osutil import ensuredir
 from sphinx.util.jsonimpl import dumps as dump_json
 from sphinx.util.pycompat import htmlescape
-from sphinx.websupport import errors
-from sphinx.websupport.search import BaseSearch, SEARCH_ADAPTERS
-from sphinx.websupport.storage import StorageBackend
+from sphinxcontrib.websupport import errors
+from sphinxcontrib.websupport.search import BaseSearch, SEARCH_ADAPTERS
+from sphinxcontrib.websupport.storage import StorageBackend
 
 if False:
     # For type annotation
@@ -80,7 +80,7 @@ class WebSupport(object):
         else:
             # If a StorageBackend isn't provided, use the default
             # SQLAlchemy backend.
-            from sphinx.websupport.storage.sqlalchemystorage \
+            from sphinxcontrib.websupport.storage.sqlalchemystorage \
                 import SQLAlchemyStorage
             if not storage:
                 # no explicit DB path given; create default sqlite database
@@ -101,7 +101,7 @@ class WebSupport(object):
             self.search = search
         else:
             mod, cls = SEARCH_ADAPTERS[search or 'null']
-            mod = 'sphinx.websupport.search.' + mod
+            mod = 'sphinxcontrib.websupport.search.' + mod
             SearchClass = getattr(__import__(mod, None, None, [cls]), cls)
             search_path = path.join(self.datadir, 'search')
             self.search = SearchClass(search_path)
@@ -170,7 +170,7 @@ class WebSupport(object):
         * **css**: Links to css files used by Sphinx
         * **script**: Javascript containing comment options
 
-        This raises :class:`~sphinx.websupport.errors.DocumentNotFoundError`
+        This raises :class:`~sphinxcontrib.websupport.errors.DocumentNotFoundError`
         if a document matching `docname` is not found.
 
         :param docname: the name of the document to load.
@@ -278,7 +278,7 @@ class WebSupport(object):
         username and text files are replaced with "[deleted]" .  In this case,
         the function returns ``False``.
 
-        This raises :class:`~sphinx.websupport.errors.UserNotAuthorizedError`
+        This raises :class:`~sphinxcontrib.websupport.errors.UserNotAuthorizedError`
         if moderator is False and `username` doesn't match username on the
         comment.
 
@@ -373,7 +373,7 @@ class WebSupport(object):
     def accept_comment(self, comment_id, moderator=False):
         """Accept a comment that is pending moderation.
 
-        This raises :class:`~sphinx.websupport.errors.UserNotAuthorizedError`
+        This raises :class:`~sphinxcontrib.websupport.errors.UserNotAuthorizedError`
         if moderator is False.
 
         :param comment_id: The id of the comment that was accepted.
@@ -386,7 +386,7 @@ class WebSupport(object):
     def _make_base_comment_options(self):
         """Helper method to create the part of the COMMENT_OPTIONS javascript
         that remains the same throughout the lifetime of the
-        :class:`~sphinx.websupport.WebSupport` object.
+        :class:`~sphinxcontrib.websupport.WebSupport` object.
         """
         self.base_comment_opts = {}  # type: Dict[unicode, unicode]
 

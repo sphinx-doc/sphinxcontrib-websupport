@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.search
-    ~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.search
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Server side search support for the web support package.
 

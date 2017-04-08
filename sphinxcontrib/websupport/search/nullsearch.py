@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.search.nullsearch
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.search.nullsearch
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     The default search adapter, does nothing.
 
@@ -9,8 +9,8 @@
     :license: BSD, see LICENSE for details.
 """
 
-from sphinx.websupport.search import BaseSearch
-from sphinx.websupport.errors import NullSearchException
+from sphinxcontrib.websupport.search import BaseSearch
+from sphinxcontrib.websupport.errors import NullSearchException
 
 
 class NullSearch(BaseSearch):

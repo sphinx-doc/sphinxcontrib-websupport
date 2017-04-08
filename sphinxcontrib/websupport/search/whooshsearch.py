@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.search.whooshsearch
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.search.whooshsearch
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Whoosh search adapter.
 
@@ -17,7 +17,7 @@ from whoosh.analysis import StemmingAnalyzer
 from six import text_type
 
 from sphinx.util.osutil import ensuredir
-from sphinx.websupport.search import BaseSearch
+from sphinxcontrib.websupport.search import BaseSearch
 
 
 class WhooshSearch(BaseSearch):

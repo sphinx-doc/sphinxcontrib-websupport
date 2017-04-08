@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.storage.sqlalchemy_db
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.storage.sqlalchemy_db
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     SQLAlchemy table and mapper definitions used by the
-    :class:`sphinx.websupport.storage.sqlalchemystorage.SQLAlchemyStorage`.
+    :class:`sphinxcontrib.websupport.storage.sqlalchemystorage.SQLAlchemyStorage`.
 
     :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
     :license: BSD, see LICENSE for details.

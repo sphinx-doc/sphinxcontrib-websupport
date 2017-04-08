@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.search.xapiansearch
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.search.xapiansearch
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Xapian search adapter.
 
@@ -14,7 +14,7 @@ import xapian
 from six import string_types
 
 from sphinx.util.osutil import ensuredir
-from sphinx.websupport.search import BaseSearch
+from sphinxcontrib.websupport.search import BaseSearch
 
 
 class XapianSearch(BaseSearch):

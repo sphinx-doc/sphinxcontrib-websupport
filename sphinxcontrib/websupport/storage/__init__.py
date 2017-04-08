@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.storage
-    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.storage
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Storage for the websupport package.
 
@@ -57,7 +57,7 @@ class StorageBackend(object):
     def delete_comment(self, comment_id, username, moderator):
         """Delete a comment.
 
-        Raises :class:`~sphinx.websupport.errors.UserNotAuthorizedError`
+        Raises :class:`~sphinxcontrib.websupport.errors.UserNotAuthorizedError`
         if moderator is False and `username` doesn't match the username
         on the comment.
 
@@ -79,8 +79,8 @@ class StorageBackend(object):
     def get_data(self, node_id, username, moderator):
         """Called to retrieve all data for a node. This should return a
         dict with two keys, *source* and *comments* as described by
-        :class:`~sphinx.websupport.WebSupport`'s
-        :meth:`~sphinx.websupport.WebSupport.get_data` method.
+        :class:`~sphinxcontrib.websupport.WebSupport`'s
+        :meth:`~sphinxcontrib.websupport.WebSupport.get_data` method.
 
         :param node_id: The id of the node to get data for.
         :param username: The name of the user requesting the data.

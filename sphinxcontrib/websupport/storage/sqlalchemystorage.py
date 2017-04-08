@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.storage.sqlalchemystorage
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.storage.sqlalchemystorage
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     An SQLAlchemy storage backend.
 
@@ -15,12 +15,12 @@ import sqlalchemy
 from sqlalchemy.orm import aliased
 from sqlalchemy.sql import func
 
-from sphinx.websupport.errors import CommentNotAllowedError, \
+from sphinxcontrib.websupport.errors import CommentNotAllowedError, \
     UserNotAuthorizedError
-from sphinx.websupport.storage import StorageBackend
-from sphinx.websupport.storage.sqlalchemy_db import Base, Node, \
+from sphinxcontrib.websupport.storage import StorageBackend
+from sphinxcontrib.websupport.storage.sqlalchemy_db import Base, Node, \
     Comment, CommentVote, Session
-from sphinx.websupport.storage.differ import CombinedHtmlDiff
+from sphinxcontrib.websupport.storage.differ import CombinedHtmlDiff
 
 if sqlalchemy.__version__[:3] < '0.5':  # type: ignore
     raise ImportError('SQLAlchemy version 0.5 or greater is required for this '

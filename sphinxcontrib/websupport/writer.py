@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.writers.websupport
-    ~~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.writer
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    sphinx.websupport writer that adds comment-related annotations.
+    sphinxcontrib.websupport writer that adds comment-related annotations.
 
     :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
     :license: BSD, see LICENSE for details.

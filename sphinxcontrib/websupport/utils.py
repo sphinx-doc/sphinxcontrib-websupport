@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.util.websupport
-    ~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.utils
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
     :license: BSD, see LICENSE for details.

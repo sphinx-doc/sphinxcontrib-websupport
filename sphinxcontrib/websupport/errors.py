@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    sphinx.websupport.errors
-    ~~~~~~~~~~~~~~~~~~~~~~~~
+    sphinxcontrib.websupport.errors
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     Contains Error classes for the web support package.
 
