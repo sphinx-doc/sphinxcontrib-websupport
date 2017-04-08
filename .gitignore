@@ -1,0 +1,12 @@
+*.pyc
+*.egg
+*.so
+*.swp
+
+.tags
+.tox
+.DS_Store
+
+build/
+dist/
+sphinxcontrib_websupport.egg-info/
