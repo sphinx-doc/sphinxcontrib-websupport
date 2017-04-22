@@ -17,7 +17,6 @@ from six.moves import cPickle as pickle
 from jinja2 import Environment, FileSystemLoader
 from docutils.core import publish_parts
 
-from sphinx.application import Sphinx
 from sphinx.locale import _
 from sphinx.util.osutil import ensuredir
 from sphinx.util.jsonimpl import dumps as dump_json
@@ -121,6 +120,8 @@ class WebSupport(object):
         """
         if not self.srcdir:
             raise RuntimeError('No srcdir associated with WebSupport object')
+
+        from sphinx.application import Sphinx
         app = Sphinx(self.srcdir, self.srcdir, self.outdir, self.doctreedir,
                      'websupport', status=self.status, warning=self.warning)
         app.builder.set_webinfo(self.staticdir, self.staticroot,  # type: ignore

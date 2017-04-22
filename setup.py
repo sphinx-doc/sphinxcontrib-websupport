@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
 from setuptools import setup, find_packages
-
-import sphinxcontrib.websupport
 
 long_desc = '''
 sphinxcontrib-webuspport provides a Python API to easily integrate Sphinx
@@ -21,9 +20,21 @@ extras_require = {
 }
 
 
+def get_version():
+    """Get version number of the package from version.py without importing core module."""
+    package_dir = os.path.abspath(os.path.dirname(__file__))
+    version_file = os.path.join(package_dir, 'sphinxcontrib/websupport/version.py')
+
+    namespace = {}
+    with open(version_file, 'rt') as f:
+        exec(f.read(), namespace)
+
+    return namespace['__version__']
+
+
 setup(
     name='sphinxcontrib-websupport',
-    version=sphinxcontrib.websupport.__version__,
+    version=get_version(),
     url='http://sphinx-doc.org/',
     download_url='https://pypi.python.org/pypi/sphinxcontrib-websupport',
     license='BSD',

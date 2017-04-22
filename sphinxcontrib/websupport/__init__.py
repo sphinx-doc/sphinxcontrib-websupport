@@ -12,7 +12,5 @@
 
 __import__('pkg_resources').declare_namespace(__name__)
 
-__version_info__ = (1, 0, 0)
-__version__ = '.'.join(str(v) for v in __version_info__)
-
 from sphinxcontrib.websupport.core import WebSupport  # NOQA
+from sphinxcontrib.websupport.version import __version__, __version_info__  # NOQA
