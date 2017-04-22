@@ -3,22 +3,18 @@ sudo: false
 cache:
   directories:
     - $HOME/.cache/pip
-python:
-  - "3.6"
-  - "3.5"
-  - "3.4"
-  - "2.7"
+-python:
+- "3.6"
+- "3.5"
+- "3.4"
+- "2.7"
 env:
   global:
     - TEST='-v --durations 25'
     - PYTHONFAULTHANDLER=x
     - PYTHONWARNINGS=all
-  matrix:
-    - TOXENV=py27
-    - TOXENV=py35
-    - TOXENV=py36
 install:
-  - pip install -U pip setuptools tox
+  - pip install -U pip setuptools tox flake8
 script:
   - flake8
-  - tox
+  - python -m pytest tests/
