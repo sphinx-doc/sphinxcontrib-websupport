@@ -1,0 +1,6 @@
+six
+pytest
+sqlalchemy
+whoosh
+mock
+Sphinx
