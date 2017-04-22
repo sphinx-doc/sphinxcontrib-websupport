@@ -10,6 +10,7 @@
 import os
 import re
 import sys
+import tempfile
 import warnings
 from functools import wraps
 from xml.etree import ElementTree
@@ -41,7 +42,10 @@ __all__ = [
 
 
 rootdir = path(os.path.dirname(__file__) or '.').abspath()
-tempdir = path(os.environ['SPHINX_TEST_TEMPDIR']).abspath()
+if 'SPHINX_TEST_TEMPDIR' in os.environ:
+    tempdir = path(os.environ['SPHINX_TEST_TEMPDIR']).abspath()
+else:
+    tempdir = path(tempfile.mkdtemp()).abspath()
 
 
 def assert_re_search(regex, text, flags=0):
