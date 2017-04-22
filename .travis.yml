@@ -3,11 +3,11 @@ sudo: false
 cache:
   directories:
     - $HOME/.cache/pip
--python:
-- "3.6"
-- "3.5"
-- "3.4"
-- "2.7"
+python:
+  - "3.6"
+  - "3.5"
+  - "3.4"
+  - "2.7"
 env:
   global:
     - TEST='-v --durations 25'
