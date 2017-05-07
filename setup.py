@@ -7,10 +7,6 @@ sphinxcontrib-webuspport provides a Python API to easily integrate Sphinx
 documentation into your Web application.
 '''
 
-requires = [
-    'sqlalchemy>=0.9',
-    'whoosh>=2.0',
-]
 extras_require = {
     # Environment Marker works for wheel 0.24 or later
     'test': [
@@ -64,7 +60,6 @@ setup(
     platforms='any',
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
-    install_requires=requires,
     extras_require=extras_require,
     namespace_packages=['sphinxcontrib'],
 )
