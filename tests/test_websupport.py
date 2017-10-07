@@ -15,7 +15,7 @@ from sphinx.websupport.errors import DocumentNotFoundError, \
 from sphinx.websupport.storage import StorageBackend
 from sphinx.websupport.storage.differ import CombinedHtmlDiff
 try:
-    from sphinx.websupport.storage.sqlalchemystorage import Session, \
+    from sphinxcontrib.websupport.storage.sqlalchemystorage import Session, \
         Comment, CommentVote
     from sphinx.websupport.storage.sqlalchemy_db import Node
     sqlalchemy_missing = False
