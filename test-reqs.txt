@@ -3,4 +3,4 @@ pytest>=3.0
 sqlalchemy
 whoosh
 mock
-Sphinx
+Sphinx>=1.7
