@@ -3,7 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 long_desc = '''
-sphinxcontrib-webuspport provides a Python API to easily integrate Sphinx
+sphinxcontrib-websupport provides a Python API to easily integrate Sphinx
 documentation into your Web application.
 '''
 
