@@ -1,7 +1,10 @@
-Release 1.1.0 (unreleased)
+Release 1.1.0 (2018-06-03)
 ==========================
 
-* Support testing with Sphinx-1.7
+* #6 Add compatibility with Sphinx 1.6. Thanks to Dmitry Shachnev.
+* #13 Support testing with Sphinx-1.7.
+* #9 Include license file in the generated wheel package. Thanks to
+  Jon Dufresne.
 
 Release 1.0.1 (2017-05-07)
 ==========================
