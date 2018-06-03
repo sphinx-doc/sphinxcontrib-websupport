@@ -1,8 +1,6 @@
 language: python
 sudo: false
-cache:
-  directories:
-    - $HOME/.cache/pip
+cache: pip
 python:
   - "3.6"
   - "3.5"
