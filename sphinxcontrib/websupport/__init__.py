@@ -6,7 +6,7 @@
     A Python API to easily integrate Sphinx documentation into Web
     applications.
 
-    :copyright: Copyright 2007-2017 by the Sphinx team, see README.
+    :copyright: Copyright 2007-2018 by the Sphinx team, see README.
     :license: BSD, see LICENSE for details.
 """
 
