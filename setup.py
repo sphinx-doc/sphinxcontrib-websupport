@@ -62,6 +62,7 @@ setup(
         'Topic :: Utilities',
     ],
     platforms='any',
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     extras_require=extras_require,
