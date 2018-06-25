@@ -32,7 +32,7 @@ setup(
     name='sphinxcontrib-websupport',
     version=get_version(),
     url='http://sphinx-doc.org/',
-    download_url='https://pypi.python.org/pypi/sphinxcontrib-websupport',
+    download_url='https://pypi.org/project/sphinxcontrib-websupport/',
     license='BSD',
     author='Georg Brandl',
     author_email='georg@python.org',
