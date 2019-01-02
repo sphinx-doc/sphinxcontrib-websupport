@@ -12,7 +12,7 @@
 from six import StringIO
 import pytest
 
-from sphinx.websupport import WebSupport
+from sphinxcontrib.websupport import WebSupport
 
 from test_websupport import sqlalchemy_missing
 from util import rootdir, tempdir, skip_unless_importable

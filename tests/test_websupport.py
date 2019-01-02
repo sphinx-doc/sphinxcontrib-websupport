@@ -9,15 +9,15 @@
     :license: BSD, see LICENSE for details.
 """
 
-from sphinx.websupport import WebSupport
-from sphinx.websupport.errors import DocumentNotFoundError, \
+from sphinxcontrib.websupport import WebSupport
+from sphinxcontrib.websupport.errors import DocumentNotFoundError, \
     CommentNotAllowedError, UserNotAuthorizedError
-from sphinx.websupport.storage import StorageBackend
-from sphinx.websupport.storage.differ import CombinedHtmlDiff
+from sphinxcontrib.websupport.storage import StorageBackend
+from sphinxcontrib.websupport.storage.differ import CombinedHtmlDiff
 try:
     from sphinxcontrib.websupport.storage.sqlalchemystorage import Session, \
         Comment, CommentVote
-    from sphinx.websupport.storage.sqlalchemy_db import Node
+    from sphinxcontrib.websupport.storage.sqlalchemy_db import Node
     sqlalchemy_missing = False
 except ImportError:
     sqlalchemy_missing = True
@@ -35,7 +35,7 @@ def support(request):
         # each test expect result of db value at previous test case.
         'builddir': tempdir / 'websupport'
     }
-    marker = request.node.get_marker('support')
+    marker = request.node.get_closest_marker('support')
     if marker:
         settings.update(marker.kwargs)
 

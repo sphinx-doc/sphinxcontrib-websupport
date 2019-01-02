@@ -18,6 +18,7 @@ from jinja2 import Environment, FileSystemLoader
 from docutils.core import publish_parts
 
 from sphinx.locale import _
+from sphinx.util.docutils import docutils_namespace
 from sphinx.util.osutil import ensuredir
 from sphinx.util.jsonimpl import dumps as dump_json
 from sphinx.util.pycompat import htmlescape
@@ -126,16 +127,17 @@ class WebSupport(object):
         if not self.srcdir:
             raise RuntimeError('No srcdir associated with WebSupport object')
 
-        from sphinx.application import Sphinx
-        app = Sphinx(self.srcdir, self.srcdir, self.outdir, self.doctreedir,
-                     self.buildername, self.confoverrides, status=self.status,
-                     warning=self.warning)
-        app.builder.set_webinfo(self.staticdir, self.staticroot,  # type: ignore
-                                self.search, self.storage)
+        with docutils_namespace():
+            from sphinx.application import Sphinx
+            app = Sphinx(self.srcdir, self.srcdir, self.outdir, self.doctreedir,
+                         self.buildername, self.confoverrides, status=self.status,
+                         warning=self.warning)
+            app.builder.set_webinfo(self.staticdir, self.staticroot,  # type: ignore
+                                    self.search, self.storage)
 
-        self.storage.pre_build()
-        app.build()
-        self.storage.post_build()
+            self.storage.pre_build()
+            app.build()
+            self.storage.post_build()
 
     def get_globalcontext(self):
         """Load and return the "global context" pickle."""
