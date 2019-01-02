@@ -13,6 +13,7 @@ env:
     - PYTHONWARNINGS=all
 install:
   - pip install -U pip tox flake8
+  - pip install .
   - pip install -r test-reqs.txt
 script:
   - flake8
