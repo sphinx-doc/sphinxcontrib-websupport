@@ -13,7 +13,6 @@ templates_path = ['_templates']
 
 master_doc = 'contents'
 source_suffix = ['.txt', '.add', '.foo']
-source_parsers = {'.foo': 'parsermod.Parser'}
 
 project = 'Sphinx <Tests>'
 copyright = '2010-2016, Georg Brandl & Team'
@@ -32,7 +31,7 @@ rst_epilog = '.. |subst| replace:: global substitution'
 html_theme = 'testtheme'
 html_theme_path = ['.']
 html_theme_options = {'testopt': 'testoverride'}
-html_sidebars = {'**': 'customsb.html',
+html_sidebars = {'**': ['customsb.html'],
                  'contents': ['contentssb.html', 'localtoc.html',
                               'globaltoc.html']}
 html_style = 'default.css'
@@ -96,11 +95,6 @@ def userdesc_parse(env, sig, signode):
     return x
 
 
-def functional_directive(name, arguments, options, content, lineno,
-                         content_offset, block_text, state, state_machine):
-    return [nodes.strong(text='from function: %s' % options['opt'])]
-
-
 class ClassDirective(Directive):
     option_spec = {'opt': lambda x: x}
 
@@ -110,8 +104,7 @@ class ClassDirective(Directive):
 
 def setup(app):
     app.add_config_value('value_from_conf_py', 42, False)
-    app.add_directive('funcdir', functional_directive, opt=lambda x: x)
     app.add_directive('clsdir', ClassDirective)
     app.add_object_type('userdesc', 'userdescrole', '%s (userdesc)',
                         userdesc_parse, objname='user desc')
-    app.add_javascript('file://moo.js')
+    app.add_js_file('file://moo.js')

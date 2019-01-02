@@ -1,5 +1,5 @@
 six
-pytest>=3.0
+pytest>=4.0
 sqlalchemy
 whoosh
 mock
