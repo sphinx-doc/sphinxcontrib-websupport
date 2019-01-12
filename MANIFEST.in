@@ -5,3 +5,4 @@ include CHANGES
 include tox.ini
 
 recursive-include tests *
+recursive-include sphinxcontrib/websupport/files *
