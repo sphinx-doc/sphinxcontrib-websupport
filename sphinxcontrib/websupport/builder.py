@@ -19,6 +19,7 @@ from sphinx.jinja2glue import BuiltinTemplateLoader
 from sphinx.util.osutil import os_path, relative_uri, ensuredir, copyfile
 from sphinx.builders.html import PickleHTMLBuilder
 
+from . import package_dir
 from .writer import WebSupportTranslator
 
 
@@ -27,6 +28,17 @@ if False:
     from typing import Any, Dict, Iterable, Tuple  # NOQA
     from docutils import nodes  # NOQA
     from sphinx.application import Sphinx  # NOQA
+
+RESOURCES = [
+    'ajax-loader.gif',
+    'comment-bright.png',
+    'comment-close.png',
+    'comment.png',
+    'down-pressed.png',
+    'down.png',
+    'up-pressed.png',
+    'up.png',
+]
 
 
 class WebSupportBuilder(PickleHTMLBuilder):
@@ -177,23 +189,15 @@ class WebSupportBuilder(PickleHTMLBuilder):
                 if path.isdir(dst):
                     shutil.rmtree(dst)
                 shutil.move(src, dst)
+        self.copy_resources()
 
+    def copy_resources(self):
+        # type: () -> None
         # copy resource files to static dir
-        resources = [
-            'ajax-loader.gif',
-            'comment-bright.png',
-            'comment-close.png',
-            'comment.png',
-            'down-pressed.png',
-            'down.png',
-            'up-pressed.png',
-            'up.png',
-        ]
-        package_dir = path.abspath(path.dirname(__file__))
         dst = path.join(self.staticdir, '_static')
 
         if path.isdir(dst):
-            for resource in resources:
+            for resource in RESOURCES:
                 src = path.join(package_dir, 'files', resource)
                 shutil.copy(src, dst)
 
