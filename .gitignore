@@ -3,6 +3,7 @@
 *.so
 *.swp
 
+.mypy_cache
 .tags
 .tox
 .DS_Store
