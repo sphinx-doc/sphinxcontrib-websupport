@@ -178,6 +178,25 @@ class WebSupportBuilder(PickleHTMLBuilder):
                     shutil.rmtree(dst)
                 shutil.move(src, dst)
 
+        # copy resource files to static dir
+        resources = [
+            'ajax-loader.gif',
+            'comment-bright.png',
+            'comment-close.png',
+            'comment.png',
+            'down-pressed.png',
+            'down.png',
+            'up-pressed.png',
+            'up.png',
+        ]
+        package_dir = path.abspath(path.dirname(__file__))
+        dst = path.join(self.staticdir, '_static')
+
+        if path.isdir(dst):
+            for resource in resources:
+                src = path.join(package_dir, 'files', resource)
+                shutil.copy(src, dst)
+
     def dump_search_index(self):
         # type: () -> None
         self.indexer.finish_indexing()  # type: ignore
