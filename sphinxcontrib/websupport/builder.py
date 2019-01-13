@@ -15,11 +15,13 @@ import shutil
 
 from docutils.io import StringOutput
 
+from sphinx import version_info as sphinx_version
 from sphinx.jinja2glue import BuiltinTemplateLoader
 from sphinx.util.osutil import os_path, relative_uri, ensuredir, copyfile
 from sphinx.builders.html import PickleHTMLBuilder
 
 from .writer import WebSupportTranslator
+from .utils import is_commentable
 
 
 if False:
@@ -34,9 +36,14 @@ class WebSupportBuilder(PickleHTMLBuilder):
     Builds documents for the web support package.
     """
     name = 'websupport'
-    versioning_method = 'commentable'
-    versioning_compare = True  # for commentable node's uuid stability.
     default_translator_class = WebSupportTranslator
+
+    if sphinx_version < (2, 0):
+        versioning_method = 'commentable'
+        versioning_compare = True  # for commentable node's uuid stability.
+    else:
+        versioning_method = is_commentable
+        versioning_compare = True  # for commentable node's uuid stability.
 
     def init(self):
         # type: () -> None
