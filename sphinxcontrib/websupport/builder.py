@@ -40,6 +40,7 @@ RESOURCES = [
     'down.png',
     'up-pressed.png',
     'up.png',
+    'websupport.js',
 ]
 
 
