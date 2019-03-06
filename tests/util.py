@@ -12,7 +12,7 @@ import tempfile
 
 import pytest
 
-from path import path
+from sphinx.testing.path import path
 
 
 __all__ = [
