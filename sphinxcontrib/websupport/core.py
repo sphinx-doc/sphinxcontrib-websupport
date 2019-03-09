@@ -20,11 +20,15 @@ from docutils.core import publish_parts
 from sphinx.locale import _
 from sphinx.util.docutils import docutils_namespace
 from sphinx.util.osutil import ensuredir
-from sphinx.util.jsonimpl import dumps as dump_json
 from sphinx.util.pycompat import htmlescape
 from sphinxcontrib.websupport import errors
 from sphinxcontrib.websupport.search import BaseSearch, SEARCH_ADAPTERS
 from sphinxcontrib.websupport.storage import StorageBackend
+
+try:
+    from sphinxcontrib.serializinghtml.jsonimpl import dumps as dump_json
+except ImportError:
+    from sphinx.util.jsonimpl import dumps as dump_json
 
 if False:
     # For type annotation
