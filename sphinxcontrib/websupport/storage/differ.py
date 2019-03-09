@@ -12,7 +12,10 @@
 import re
 from difflib import Differ
 
-from sphinx.util.pycompat import htmlescape
+try:
+    from html import escape as htmlescape
+except ImportError:  # py27
+    from cgi import escape as htmlescape  # NOQA
 
 
 class CombinedHtmlDiff(object):
