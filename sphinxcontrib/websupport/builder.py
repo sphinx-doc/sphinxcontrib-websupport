@@ -50,13 +50,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
     """
     name = 'websupport'
     default_translator_class = WebSupportTranslator
-
-    if sphinx_version < (2, 0):
-        versioning_method = 'commentable'
-        versioning_compare = True  # for commentable node's uuid stability.
-    else:
-        versioning_method = is_commentable
-        versioning_compare = True  # for commentable node's uuid stability.
+    versioning_compare = True  # for commentable node's uuid stability.
 
     def init(self):
         # type: () -> None
@@ -69,6 +63,13 @@ class WebSupportBuilder(PickleHTMLBuilder):
                                'the builtin templates')
         # add our custom JS
         self.script_files.append('_static/websupport.js')
+
+    @property
+    def versioning_method(self):
+        if sphinx_version < (2, 0):
+            return 'commentable'
+        else:
+            return is_commentable
 
     def set_webinfo(self, staticdir, virtual_staticdir, search, storage):
         # type: (unicode, unicode, Any, unicode) -> None
@@ -216,7 +217,8 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
 def setup(app):
     # type: (Sphinx) -> Dict[unicode, Any]
-    app.add_builder(WebSupportBuilder)
+    if sphinx_version >= (2, 0):
+        app.add_builder(WebSupportBuilder)
 
     return {
         'version': 'builtin',

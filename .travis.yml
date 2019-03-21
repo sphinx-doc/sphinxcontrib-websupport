@@ -23,6 +23,8 @@ matrix:
     - python: nightly
       dist: xenial
       env: TOXENV=py38
+    - python: '3.6'
+      env: TOXENV=sphinx20
     - python: '2.7'
       env: TOXENV=flake8
 install:

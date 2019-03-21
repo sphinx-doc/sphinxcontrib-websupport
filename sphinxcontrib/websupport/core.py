@@ -83,6 +83,9 @@ class WebSupport(object):
 
         self._make_base_comment_options()
 
+        extensions = self.confoverrides.setdefault('extensions', [])
+        extensions.append('sphinxcontrib.websupport.builder')
+
     def _init_storage(self, storage):
         if isinstance(storage, StorageBackend):
             self.storage = storage
