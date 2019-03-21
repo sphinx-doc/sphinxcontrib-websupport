@@ -1,4 +1,4 @@
-Release 1.2.0 (unreleased)
+Release 1.1.1 (2019-03-21)
 ==========================
 
 * #6190: sphinxcontrib-websupport doesn't work with Sphinx 2.0.0b1
