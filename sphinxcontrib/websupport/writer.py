@@ -10,7 +10,8 @@
 """
 
 from sphinx.writers.html import HTMLTranslator
-from sphinx.util.websupport import is_commentable
+
+from .utils import is_commentable
 
 
 class WebSupportTranslator(HTMLTranslator):
