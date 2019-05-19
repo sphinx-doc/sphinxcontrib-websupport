@@ -67,5 +67,10 @@ setup(
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
     extras_require=extras_require,
+    entry_points={
+        'sphinx.builders': [
+            'websupport = sphinxcontrib.websupport.builder:WebSupportBuilder',
+        ],
+    },
     namespace_packages=['sphinxcontrib'],
 )
