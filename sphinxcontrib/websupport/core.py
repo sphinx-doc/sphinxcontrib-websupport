@@ -10,10 +10,10 @@
 """
 
 import sys
+import pickle
 import posixpath
 from os import path
 
-from six.moves import cPickle as pickle
 from jinja2 import Environment, FileSystemLoader
 from docutils.core import publish_parts
 

@@ -11,8 +11,6 @@
 
 import xapian
 
-from six import string_types
-
 from sphinx.util.osutil import ensuredir
 from sphinxcontrib.websupport.search import BaseSearch
 
@@ -76,7 +74,7 @@ class XapianSearch(BaseSearch):
 
         for m in matches:
             data = m.document.get_data()
-            if not isinstance(data, string_types):
+            if not isinstance(data, str):
                 data = data.decode("utf-8")
             context = self.extract_context(data)
             results.append((m.document.get_value(self.DOC_PATH),
