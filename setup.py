@@ -11,6 +11,12 @@ extras_require = {
     # Environment Marker works for wheel 0.24 or later
     'test': [
         'pytest',
+        'sqlalchemy',
+        'whoosh',
+        'Sphinx',
+    ],
+    'lint': [
+        'flake8',
     ],
 }
 
