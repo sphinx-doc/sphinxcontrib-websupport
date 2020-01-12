@@ -1,5 +1,0 @@
-pytest>=4.0
-sqlalchemy
-whoosh
-mock
-Sphinx>=1.7
