@@ -72,19 +72,19 @@ class WebSupportBuilder(PickleHTMLBuilder):
             return is_commentable
 
     def set_webinfo(self, staticdir, virtual_staticdir, search, storage):
-        # type: (unicode, unicode, Any, unicode) -> None
+        # type: (str, str, Any, str) -> None
         self.staticdir = staticdir
         self.virtual_staticdir = virtual_staticdir
         self.search = search
         self.storage = storage
 
     def prepare_writing(self, docnames):
-        # type: (Iterable[unicode]) -> None
+        # type: (Iterable[str]) -> None
         PickleHTMLBuilder.prepare_writing(self, docnames)
         self.globalcontext['no_search_suffix'] = True
 
     def write_doc(self, docname, doctree):
-        # type: (unicode, nodes.Node) -> None
+        # type: (str, nodes.Node) -> None
         destination = StringOutput(encoding='utf-8')
         doctree.settings = self.docsettings
 
@@ -102,7 +102,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.handle_page(docname, ctx, event_arg=doctree)
 
     def write_doc_serialized(self, docname, doctree):
-        # type: (unicode, nodes.Node) -> None
+        # type: (str, nodes.Node) -> None
         self.imgpath = '/' + posixpath.join(self.virtual_staticdir, self.imagedir)
         self.post_process_images(doctree)
         title = self.env.longtitles.get(docname)
@@ -110,12 +110,12 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.index_page(docname, doctree, title)
 
     def load_indexer(self, docnames):
-        # type: (Iterable[unicode]) -> None
+        # type: (Iterable[str]) -> None
         self.indexer = self.search  # type: ignore
         self.indexer.init_indexing(changed=docnames)  # type: ignore
 
     def _render_page(self, pagename, addctx, templatename, event_arg=None):
-        # type: (unicode, Dict, unicode, unicode) -> Tuple[Dict, Dict]
+        # type: (str, Dict, str, str) -> Tuple[Dict, Dict]
         # This is mostly copied from StandaloneHTMLBuilder. However, instead
         # of rendering the template and saving the html, create a context
         # dict and pickle it.
@@ -124,7 +124,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
         def pathto(otheruri, resource=False,
                    baseuri=self.get_target_uri(pagename)):
-            # type: (unicode, bool, unicode) -> unicode
+            # type: (str, bool, str) -> str
             if resource and '://' in otheruri:
                 return otheruri
             elif not resource:
@@ -162,7 +162,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
     def handle_page(self, pagename, addctx, templatename='page.html',
                     outfilename=None, event_arg=None):
-        # type: (unicode, Dict, unicode, unicode, unicode) -> None
+        # type: (str, Dict, str, str, str) -> None
         ctx, doc_ctx = self._render_page(pagename, addctx,
                                          templatename, event_arg)
 
@@ -216,7 +216,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
 
 def setup(app):
-    # type: (Sphinx) -> Dict[unicode, Any]
+    # type: (Sphinx) -> Dict[str, Any]
     if sphinx_version >= (2, 0):
         app.add_builder(WebSupportBuilder)
 

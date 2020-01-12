@@ -404,7 +404,7 @@ class WebSupport(object):
         that remains the same throughout the lifetime of the
         :class:`~sphinxcontrib.websupport.WebSupport` object.
         """
-        self.base_comment_opts = {}  # type: Dict[unicode, unicode]
+        self.base_comment_opts = {}  # type: Dict[str, str]
 
         if self.docroot != '':
             comment_urls = [
