@@ -1,6 +1,6 @@
 language: python
 sudo: false
-dist: trusty
+dist: xenial
 cache: pip
 env:
   global:
@@ -14,13 +14,10 @@ matrix:
     - python: '3.6'
       env: TOXENV=py36
     - python: '3.7'
-      dist: xenial
       env: TOXENV=py37
     - python: '3.8'
-      dist: xenial
       env: TOXENV=py38
     - python: '3.7'
-      dist: xenial
       env: TOXENV=flake8
 install:
   - pip install -U pip tox
