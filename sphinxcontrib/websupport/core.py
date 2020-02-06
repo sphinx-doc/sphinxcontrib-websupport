@@ -22,6 +22,7 @@ from sphinx.util.docutils import docutils_namespace
 from sphinx.util.osutil import ensuredir
 from sphinx.util.pycompat import htmlescape
 from sphinxcontrib.websupport import errors
+from sphinxcontrib.websupport import package_dir
 from sphinxcontrib.websupport.search import BaseSearch, SEARCH_ADAPTERS
 from sphinxcontrib.websupport.storage import StorageBackend
 
@@ -102,10 +103,7 @@ class WebSupport(object):
             self.storage = SQLAlchemyStorage(storage)
 
     def _init_templating(self):
-        import sphinx
-        template_path = path.join(sphinx.package_dir,
-                                  'themes', 'basic')
-        loader = FileSystemLoader(template_path)
+        loader = FileSystemLoader(path.join(package_dir, 'templates'))
         self.template_env = Environment(loader=loader)
 
     def _init_search(self, search):
