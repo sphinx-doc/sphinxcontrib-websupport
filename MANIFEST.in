@@ -6,3 +6,4 @@ include tox.ini
 
 recursive-include tests *
 recursive-include sphinxcontrib/websupport/files *
+include sphinxcontrib/websupport/templates/*.html
