@@ -1,6 +1,7 @@
-Release 1.3.0 (unreleased)
+Release 1.2.1 (unreleased)
 ==========================
 
+* #41: templates/searchresults.html is missing in the source tarball
 
 Release 1.2.0 (2020-02-07)
 ==========================
