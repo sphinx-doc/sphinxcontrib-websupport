@@ -1,4 +1,4 @@
-Release 1.2.2 (unreleased)
+Release 1.2.2 (2020-04-29)
 ==========================
 
 * Stop to use sphinx.util.pycompat:htmlescape
