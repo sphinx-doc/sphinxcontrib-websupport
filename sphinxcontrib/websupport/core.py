@@ -9,6 +9,7 @@
     :license: BSD, see LICENSE for details.
 """
 
+import html
 import sys
 import pickle
 import posixpath
@@ -20,7 +21,6 @@ from docutils.core import publish_parts
 from sphinx.locale import _
 from sphinx.util.docutils import docutils_namespace
 from sphinx.util.osutil import ensuredir
-from sphinx.util.pycompat import htmlescape
 from sphinxcontrib.websupport import errors
 from sphinxcontrib.websupport import package_dir
 from sphinxcontrib.websupport.search import BaseSearch, SEARCH_ADAPTERS
@@ -465,5 +465,5 @@ class WebSupport(object):
             ret = publish_parts(text, writer_name='html',
                                 settings_overrides=settings)['fragment']
         except Exception:
-            ret = htmlescape(text)
+            ret = html.escape(text)
         return ret

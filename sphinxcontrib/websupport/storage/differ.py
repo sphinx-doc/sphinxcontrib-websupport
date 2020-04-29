@@ -9,13 +9,9 @@
     :license: BSD, see LICENSE for details.
 """
 
+import html
 import re
 from difflib import Differ
-
-try:
-    from html import escape as htmlescape
-except ImportError:  # py27
-    from cgi import escape as htmlescape  # NOQA
 
 
 class CombinedHtmlDiff(object):
@@ -25,7 +21,7 @@ class CombinedHtmlDiff(object):
     highlight_regex = re.compile(r'([\+\-\^]+)')
 
     def __init__(self, source, proposal):
-        proposal = htmlescape(proposal)
+        proposal = html.escape(proposal)
 
         differ = Differ()
         self.diff = list(differ.compare(source.splitlines(1),
