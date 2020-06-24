@@ -63,7 +63,7 @@ class WebSupport(object):
         self.outdir = path.join(builddir, 'data')
         self.datadir = datadir or self.outdir
         self.staticdir = staticdir or path.join(self.builddir, 'static')
-        self.doctreedir = staticdir or path.join(self.builddir, 'doctrees')
+        self.doctreedir = doctreedir or path.join(self.builddir, 'doctrees')
         # web server virtual paths
         self.staticroot = staticroot.strip('/')
         self.docroot = docroot.strip('/')
