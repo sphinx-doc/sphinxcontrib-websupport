@@ -69,6 +69,9 @@ setup(
     python_requires=">=3.5",
     packages=find_packages(exclude=['tests']),
     include_package_data=True,
+    install_requires=[
+        'sphinxcontrib-serializinghtml',
+    ],
     extras_require=extras_require,
     entry_points={
         'sphinx.builders': [

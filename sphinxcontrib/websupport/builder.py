@@ -18,7 +18,7 @@ from docutils.io import StringOutput
 from sphinx import version_info as sphinx_version
 from sphinx.jinja2glue import BuiltinTemplateLoader
 from sphinx.util.osutil import os_path, relative_uri, ensuredir, copyfile
-from sphinx.builders.html import PickleHTMLBuilder
+from sphinxcontrib.serializinghtml import PickleHTMLBuilder
 
 from . import package_dir
 from .writer import WebSupportTranslator
