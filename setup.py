@@ -17,6 +17,7 @@ extras_require = {
     ],
     'lint': [
         'flake8',
+        'mypy',
     ],
 }
 
