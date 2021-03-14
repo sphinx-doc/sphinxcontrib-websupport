@@ -84,7 +84,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.globalcontext['no_search_suffix'] = True
 
     def write_doc(self, docname, doctree):
-        # type: (str, nodes.Node) -> None
+        # type: (str, nodes.document) -> None
         destination = StringOutput(encoding='utf-8')
         doctree.settings = self.docsettings
 
@@ -115,7 +115,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.indexer.init_indexing(changed=docnames)  # type: ignore
 
     def _render_page(self, pagename, addctx, templatename, event_arg=None):
-        # type: (str, Dict, str, str) -> Tuple[Dict, Dict]
+        # type: (str, Dict, str, Any) -> Tuple[Dict, Dict]
         # This is mostly copied from StandaloneHTMLBuilder. However, instead
         # of rendering the template and saving the html, create a context
         # dict and pickle it.
@@ -162,7 +162,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
     def handle_page(self, pagename, addctx, templatename='page.html',
                     outfilename=None, event_arg=None):
-        # type: (str, Dict, str, str, str) -> None
+        # type: (str, Dict, str, str, Any) -> None
         ctx, doc_ctx = self._render_page(pagename, addctx,
                                          templatename, event_arg)
 
