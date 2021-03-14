@@ -14,7 +14,6 @@ extras_require = {
         'sqlalchemy',
         'whoosh',
         'Sphinx',
-        'six',
     ],
     'lint': [
         'flake8',

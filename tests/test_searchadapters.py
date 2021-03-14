@@ -9,7 +9,8 @@
     :license: BSD, see LICENSE for details.
 """
 
-from six import StringIO
+from io import StringIO
+
 import pytest
 
 from sphinxcontrib.websupport import WebSupport
