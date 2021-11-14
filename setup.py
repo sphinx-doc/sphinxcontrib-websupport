@@ -37,8 +37,12 @@ def get_version():
 setup(
     name='sphinxcontrib-websupport',
     version=get_version(),
-    url='http://sphinx-doc.org/',
-    download_url='https://pypi.org/project/sphinxcontrib-websupport/',
+    project_urls={
+        'Homepage': 'https://sphinx-doc.org/',
+        'Download': 'https://pypi.org/project/sphinxcontrib-websupport/',
+        'Source': 'https://github.com/sphinx-doc/sphinxcontrib-websupport',
+        'Conda-Forge': 'https://github.com/conda-forge/sphinxcontrib-websupport-feedstock',
+    },
     license='BSD',
     author='Georg Brandl',
     author_email='georg@python.org',
