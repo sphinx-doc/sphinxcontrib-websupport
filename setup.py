@@ -41,7 +41,6 @@ setup(
         'Homepage': 'https://sphinx-doc.org/',
         'Download': 'https://pypi.org/project/sphinxcontrib-websupport/',
         'Source': 'https://github.com/sphinx-doc/sphinxcontrib-websupport',
-        'Conda-Forge': 'https://github.com/conda-forge/sphinxcontrib-websupport-feedstock',
     },
     license='BSD',
     author='Georg Brandl',
