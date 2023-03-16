@@ -82,3 +82,11 @@ include = [
     "tests/",
     "tox.ini",
 ]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+markers = [
+    "support",
+]

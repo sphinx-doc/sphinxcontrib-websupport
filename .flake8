@@ -1,0 +1,4 @@
+[flake8]
+max-line-length = 95
+ignore = E116,E241,E251
+exclude = .git,.tox,.venv,tests/*
