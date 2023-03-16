@@ -1,0 +1,92 @@
+[build-system]
+requires = ["flit_core>=3.7"]
+build-backend = "flit_core.buildapi"
+
+# project metadata
+[project]
+name = "sphinxcontrib-websupport"
+description = """sphinxcontrib-websupport provides a Python API to easily \
+integrate Sphinx documentation into your Web application"""
+readme = "README.rst"
+urls.Changelog = "https://www.sphinx-doc.org/en/master/changes.html"
+urls.Code = "https://github.com/sphinx-doc/sphinxcontrib-websupport"
+urls.Download = "https://pypi.org/project/sphinxcontrib-websupport/"
+urls.Homepage = "https://www.sphinx-doc.org/"
+urls."Issue tracker" = "https://github.com/sphinx-doc/sphinx/issues"
+license.text = "BSD-2-Clause"
+requires-python = ">=3.5"
+
+# Classifiers list: https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Extension",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Text Processing",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "jinja2",
+    "Sphinx",
+    "sphinxcontrib-serializinghtml",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "sqlalchemy",
+    "whoosh",
+    "Sphinx",
+]
+lint = [
+    "flake8",
+    "mypy",
+    "docutils-stubs",
+]
+
+[[project.authors]]
+name = "Georg Brandl"
+email = "georg@python.org"
+
+[project.entry-points]
+"sphinx.builders".websupport = "sphinxcontrib.websupport.builder:WebSupportBuilder"
+
+
+[tool.flit.module]
+name = "sphinxcontrib.websupport"
+
+[tool.flit.sdist]
+include = [
+    "CHANGES",
+    "LICENSE",
+    # Tests
+    "tests/",
+    "tox.ini",
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+markers = [
+    "support",
+]

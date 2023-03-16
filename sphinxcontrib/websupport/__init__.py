@@ -11,9 +11,9 @@
 """
 from os import path
 
-__import__('pkg_resources').declare_namespace(__name__)
+from sphinxcontrib.websupport.core import WebSupport  # NOQA
+
+__version__ = '1.2.5'
+__version_info__ = (1, 2, 5)
 
 package_dir = path.abspath(path.dirname(__file__))
-
-from sphinxcontrib.websupport.core import WebSupport  # NOQA
-from sphinxcontrib.websupport.version import __version__, __version_info__  # NOQA
