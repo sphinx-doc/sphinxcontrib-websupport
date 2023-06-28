@@ -27,7 +27,7 @@ from .utils import is_commentable
 
 if False:
     # For type annotation
-    from typing import Any, Dict, Iterable, Tuple  # NOQA
+    from typing import Any, Dict, Iterable, Optional, Tuple  # NOQA
     from docutils import nodes  # NOQA
     from sphinx.application import Sphinx  # NOQA
 
@@ -162,7 +162,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
     def handle_page(self, pagename, addctx, templatename='page.html',
                     outfilename=None, event_arg=None):
-        # type: (str, Dict, str, str, Any) -> None
+        # type: (str, Dict, str, Optional[str], Any) -> None
         ctx, doc_ctx = self._render_page(pagename, addctx,
                                          templatename, event_arg)
 
