@@ -69,7 +69,8 @@ class WebSupportBuilder(PickleHTMLBuilder):
     def versioning_method(self):
         return is_commentable
 
-    def set_webinfo(self,
+    def set_webinfo(
+        self,
         staticdir: str,
         virtual_staticdir: str,
         search: Any,
@@ -112,7 +113,8 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.indexer = self.search  # type: ignore
         self.indexer.init_indexing(changed=docnames)  # type: ignore
 
-    def _render_page(self,
+    def _render_page(
+        self,
         pagename: str,
         addctx: dict,
         templatename: str,
