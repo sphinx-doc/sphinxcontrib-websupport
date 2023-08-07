@@ -9,9 +9,12 @@
     :license: BSD, see LICENSE for details.
 """
 
+from __future__ import annotations
+
 from os import path
 import posixpath
 import shutil
+from typing import TYPE_CHECKING, Any
 
 from docutils.io import StringOutput
 
@@ -24,11 +27,11 @@ from sphinxcontrib.websupport.writer import WebSupportTranslator
 from sphinxcontrib.websupport.utils import is_commentable
 
 
-if False:
-    # For type annotation
-    from typing import Any, Dict, Iterable, Tuple  # NOQA
-    from docutils import nodes  # NOQA
-    from sphinx.application import Sphinx  # NOQA
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from docutils import nodes
+    from sphinx.application import Sphinx
 
 RESOURCES = [
     'ajax-loader.gif',
@@ -51,8 +54,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
     default_translator_class = WebSupportTranslator
     versioning_compare = True  # for commentable node's uuid stability.
 
-    def init(self):
-        # type: () -> None
+    def init(self) -> None:
         PickleHTMLBuilder.init(self)
         # templates are needed for this builder, but the serializing
         # builder does not initialize them
@@ -67,20 +69,22 @@ class WebSupportBuilder(PickleHTMLBuilder):
     def versioning_method(self):
         return is_commentable
 
-    def set_webinfo(self, staticdir, virtual_staticdir, search, storage):
-        # type: (str, str, Any, str) -> None
+    def set_webinfo(self,
+        staticdir: str,
+        virtual_staticdir: str,
+        search: Any,
+        storage: str,
+    ) -> None:
         self.staticdir = staticdir
         self.virtual_staticdir = virtual_staticdir
         self.search = search
         self.storage = storage
 
-    def prepare_writing(self, docnames):
-        # type: (Iterable[str]) -> None
+    def prepare_writing(self, docnames: Iterable[str]) -> None:
         PickleHTMLBuilder.prepare_writing(self, docnames)
         self.globalcontext['no_search_suffix'] = True
 
-    def write_doc(self, docname, doctree):
-        # type: (str, nodes.document) -> None
+    def write_doc(self, docname: str, doctree: nodes.document) -> None:
         destination = StringOutput(encoding='utf-8')
         doctree.settings = self.docsettings
 
@@ -97,30 +101,31 @@ class WebSupportBuilder(PickleHTMLBuilder):
         ctx = self.get_doc_context(docname, body, metatags)
         self.handle_page(docname, ctx, event_arg=doctree)
 
-    def write_doc_serialized(self, docname, doctree):
-        # type: (str, nodes.Node) -> None
+    def write_doc_serialized(self, docname: str, doctree: nodes.Node) -> None:
         self.imgpath = '/' + posixpath.join(self.virtual_staticdir, self.imagedir)
         self.post_process_images(doctree)
         title = self.env.longtitles.get(docname)
         title = title and self.render_partial(title)['title'] or ''
         self.index_page(docname, doctree, title)
 
-    def load_indexer(self, docnames):
-        # type: (Iterable[str]) -> None
+    def load_indexer(self, docnames: Iterable[str]) -> None:
         self.indexer = self.search  # type: ignore
         self.indexer.init_indexing(changed=docnames)  # type: ignore
 
-    def _render_page(self, pagename, addctx, templatename, event_arg=None):
-        # type: (str, Dict, str, Any) -> Tuple[Dict, Dict]
+    def _render_page(self,
+        pagename: str,
+        addctx: dict,
+        templatename: str,
+        event_arg: Any = None,
+    ) -> tuple[dict, dict]:
         # This is mostly copied from StandaloneHTMLBuilder. However, instead
         # of rendering the template and saving the html, create a context
         # dict and pickle it.
         ctx = self.globalcontext.copy()
         ctx['pagename'] = pagename
 
-        def pathto(otheruri, resource=False,
-                   baseuri=self.get_target_uri(pagename)):
-            # type: (str, bool, str) -> str
+        def pathto(otheruri: str, resource: bool = False,
+                   baseuri: str = self.get_target_uri(pagename)) -> str:
             if resource and '://' in otheruri:
                 return otheruri
             elif not resource:
@@ -156,9 +161,8 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
         return ctx, doc_ctx
 
-    def handle_page(self, pagename, addctx, templatename='page.html',
-                    outfilename=None, event_arg=None):
-        # type: (str, Dict, str, str | None, Any) -> None
+    def handle_page(self, pagename: str, addctx: dict, templatename: str = 'page.html',
+                    outfilename: str | None = None, event_arg: Any = None) -> None:
         ctx, doc_ctx = self._render_page(pagename, addctx,
                                          templatename, event_arg)
 
@@ -176,8 +180,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
             ensuredir(path.dirname(source_name))
             copyfile(self.env.doc2path(pagename), source_name)
 
-    def handle_finish(self):
-        # type: () -> None
+    def handle_finish(self) -> None:
         # get global values for css and script files
         _, doc_ctx = self._render_page('tmp', {}, 'page.html')
         self.globalcontext['css'] = doc_ctx['css']
@@ -196,8 +199,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
                 shutil.move(src, dst)
         self.copy_resources()
 
-    def copy_resources(self):
-        # type: () -> None
+    def copy_resources(self) -> None:
         # copy resource files to static dir
         dst = path.join(self.staticdir, '_static')
 
@@ -206,13 +208,11 @@ class WebSupportBuilder(PickleHTMLBuilder):
                 src = path.join(package_dir, 'files', resource)
                 shutil.copy(src, dst)
 
-    def dump_search_index(self):
-        # type: () -> None
+    def dump_search_index(self) -> None:
         self.indexer.finish_indexing()  # type: ignore
 
 
-def setup(app):
-    # type: (Sphinx) -> Dict[str, Any]
+def setup(app: Sphinx) -> dict[str, Any]:
     app.add_builder(WebSupportBuilder)
 
     return {

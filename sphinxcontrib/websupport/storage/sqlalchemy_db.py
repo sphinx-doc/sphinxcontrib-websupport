@@ -10,16 +10,14 @@
     :license: BSD, see LICENSE for details.
 """
 
+from __future__ import annotations
+
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, Text, String, Boolean, \
     ForeignKey, DateTime
 from sqlalchemy.orm import relation, sessionmaker, aliased
 from sqlalchemy.ext.declarative import declarative_base
-
-if False:
-    # For type annotation
-    from typing import List  # NOQA
 
 Base = declarative_base()
 Session = sessionmaker()
@@ -78,7 +76,7 @@ class Node(Base):  # type: ignore
         :param results: the flat list of comments
         :param username: the name of the user requesting the comments.
         """
-        comments = []  # type: List
+        comments = []
         list_stack = [comments]
         for r in results:
             if username:

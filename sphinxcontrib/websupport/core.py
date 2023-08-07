@@ -9,6 +9,8 @@
     :license: BSD, see LICENSE for details.
 """
 
+from __future__ import annotations
+
 import html
 import sys
 import pickle
@@ -30,10 +32,6 @@ try:
     from sphinxcontrib.serializinghtml.jsonimpl import dumps as dump_json
 except ImportError:
     from sphinx.util.jsonimpl import dumps as dump_json
-
-if False:
-    # For type annotation
-    from typing import Dict  # NOQA
 
 
 class WebSupport(object):
@@ -402,7 +400,7 @@ class WebSupport(object):
         that remains the same throughout the lifetime of the
         :class:`~sphinxcontrib.websupport.WebSupport` object.
         """
-        self.base_comment_opts = {}  # type: Dict[str, str]
+        self.base_comment_opts: dict[str, str] = {}
 
         if self.docroot != '':
             comment_urls = [
