@@ -1,4 +1,4 @@
-Release 1.2.5 (unreleased)
+Release 1.2.5 (2023-08-07)
 ==========================
 
 * Drop support for Python 3.5, 3.6, 3.7, and 3.8
