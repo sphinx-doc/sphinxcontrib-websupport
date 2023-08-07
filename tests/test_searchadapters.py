@@ -9,27 +9,30 @@
     :license: BSD, see LICENSE for details.
 """
 
+import shutil
 from io import StringIO
 
 import pytest
 
 from sphinxcontrib.websupport import WebSupport
 
-from test_websupport import sqlalchemy_missing
-from util import rootdir, tempdir, skip_unless_importable
+from test_websupport import skip_if_sqlalchemy_missing
+from util import skip_unless_importable
 
 
-def teardown_module():
-    (tempdir / 'websupport').rmtree(True)
+def teardown_module(tmp_path):
+    shutil.rmtree(tmp_path / 'websupport', ignore_errors=True)
 
 
-def search_adapter_helper(adapter):
-    settings = {'srcdir': rootdir / 'roots' / 'test-searchadapters',
-                'builddir': tempdir / 'websupport',
-                'status': StringIO(),
-                'warning': StringIO(),
-                'search': adapter}
-    support = WebSupport(**settings)
+@pytest.fixture
+def search_adapter_helper(rootdir, tmp_path, adapter):
+    support = WebSupport(
+        srcdir=rootdir / 'test-searchadapters',
+        builddir=tmp_path / 'websupport',
+        status=StringIO(),
+        warning=StringIO(),
+        search=adapter
+    )
     support.build()
 
     s = support.search
@@ -60,12 +63,12 @@ def search_adapter_helper(adapter):
 
 
 @skip_unless_importable('xapian', 'needs xapian bindings installed')
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
-def test_xapian():
-    search_adapter_helper('xapian')
+@skip_if_sqlalchemy_missing
+def test_xapian(rootdir, tmp_path):
+    search_adapter_helper(rootdir, tmp_path, 'xapian')
 
 
 @skip_unless_importable('whoosh', 'needs whoosh package installed')
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
-def test_whoosh():
-    search_adapter_helper('whoosh')
+@skip_if_sqlalchemy_missing
+def test_whoosh(rootdir, tmp_path, adapter):
+    search_adapter_helper(rootdir, tmp_path, 'whoosh')

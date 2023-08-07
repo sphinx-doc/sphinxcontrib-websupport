@@ -23,17 +23,21 @@ except ImportError:
     sqlalchemy_missing = True
 
 import pytest
-from util import rootdir, tempdir
+
+skip_if_sqlalchemy_missing = pytest.mark.skipif(
+    sqlalchemy_missing,
+    reason='needs sqlalchemy',
+)
 
 
 @pytest.fixture
-def support(request):
+def support(rootdir, tmp_path, request):
     settings = {
-        'srcdir': rootdir / 'root',
+        'srcdir': rootdir / 'test-root',
         # to use same directory for 'builddir' in each 'support' fixture, using
         # 'tempdir' (static) value instead of 'tempdir' fixture value.
         # each test expect result of db value at previous test case.
-        'builddir': tempdir / 'websupport'
+        'builddir': tmp_path / 'websupport'
     }
     marker = request.node.get_closest_marker('support')
     if marker:
@@ -50,20 +54,20 @@ class NullStorage(StorageBackend):
     pass
 
 
-@with_support(storage=NullStorage())
+@with_support(storage=NullStorage(), srcdir=None)
 def test_no_srcdir(support):
     # make sure the correct exception is raised if srcdir is not given.
     with pytest.raises(RuntimeError):
         support.build()
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_build(support):
     support.build()
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_get_document(support):
     with pytest.raises(DocumentNotFoundError):
@@ -74,7 +78,7 @@ def test_get_document(support):
         and contents['sidebar'] and contents['relbar']
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_comments(support):
     session = Session()
@@ -123,7 +127,7 @@ def test_comments(support):
     assert children[0]['text'] == '<p>Child test comment</p>\n'
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_user_delete_comments(support):
     def get_comment():
@@ -152,7 +156,7 @@ def moderation_callback(comment):
     called = True
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support(moderation_callback=moderation_callback)
 def test_moderation(support):
     session = Session()
@@ -178,7 +182,7 @@ def test_moderation(support):
     assert len(comments) == 1
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_moderator_delete_comments(support):
     def get_comment():
@@ -194,7 +198,7 @@ def test_moderator_delete_comments(support):
         get_comment()
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_update_username(support):
     support.update_username('user_two', 'new_user_two')
@@ -213,7 +217,7 @@ def test_update_username(support):
     assert len(votes) == 0
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_proposals(support):
     session = Session()
@@ -229,7 +233,7 @@ def test_proposals(support):
                         proposal=proposal)
 
 
-@pytest.mark.skipif(sqlalchemy_missing, reason='needs sqlalchemy')
+@skip_if_sqlalchemy_missing
 @with_support()
 def test_voting(support):
     session = Session()

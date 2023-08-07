@@ -11,7 +11,7 @@
 
 from sphinx.writers.html import HTMLTranslator
 
-from .utils import is_commentable
+from sphinxcontrib.websupport.utils import is_commentable
 
 
 class WebSupportTranslator(HTMLTranslator):

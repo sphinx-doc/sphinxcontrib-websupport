@@ -11,9 +11,11 @@
 """
 from os import path
 
-from sphinxcontrib.websupport.core import WebSupport  # NOQA
 
 __version__ = '1.2.5'
 __version_info__ = (1, 2, 5)
 
 package_dir = path.abspath(path.dirname(__file__))
+
+# must be imported last to avoid circular import
+from sphinxcontrib.websupport.core import WebSupport  # NOQA

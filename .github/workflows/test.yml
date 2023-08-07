@@ -31,14 +31,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Python ${{ matrix.python }}
+      - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v4
+        if: "!endsWith(matrix.python, '-dev')"
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Set up Python ${{ matrix.python }} (deadsnakes)
+        uses: deadsnakes/action@v2.1.1
+        if: "endsWith(matrix.python, '-dev')"
         with:
           python-version: ${{ matrix.python }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install --upgrade pytest
+          python -m pip install .[test]
           python -m pip install "Sphinx @ git+https://github.com/sphinx-doc/sphinx"
 
       - name: Test with pytest

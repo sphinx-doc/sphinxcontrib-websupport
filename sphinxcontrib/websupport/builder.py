@@ -19,9 +19,9 @@ from sphinx.jinja2glue import BuiltinTemplateLoader
 from sphinx.util.osutil import os_path, relative_uri, ensuredir, copyfile
 from sphinxcontrib.serializinghtml import PickleHTMLBuilder
 
-from . import package_dir
-from .writer import WebSupportTranslator
-from .utils import is_commentable
+from sphinxcontrib.websupport import package_dir
+from sphinxcontrib.websupport.writer import WebSupportTranslator
+from sphinxcontrib.websupport.utils import is_commentable
 
 
 if False:
