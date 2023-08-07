@@ -158,7 +158,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
     def handle_page(self, pagename, addctx, templatename='page.html',
                     outfilename=None, event_arg=None):
-        # type: (str, Dict, str, str, Any) -> None
+        # type: (str, Dict, str, str | None, Any) -> None
         ctx, doc_ctx = self._render_page(pagename, addctx,
                                          templatename, event_arg)
 
