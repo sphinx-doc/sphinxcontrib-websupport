@@ -15,7 +15,6 @@ import shutil
 
 from docutils.io import StringOutput
 
-from sphinx import version_info as sphinx_version
 from sphinx.jinja2glue import BuiltinTemplateLoader
 from sphinx.util.osutil import os_path, relative_uri, ensuredir, copyfile
 from sphinxcontrib.serializinghtml import PickleHTMLBuilder
@@ -66,10 +65,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
     @property
     def versioning_method(self):
-        if sphinx_version < (2, 0):
-            return 'commentable'
-        else:
-            return is_commentable
+        return is_commentable
 
     def set_webinfo(self, staticdir, virtual_staticdir, search, storage):
         # type: (str, str, Any, str) -> None
@@ -217,8 +213,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
 def setup(app):
     # type: (Sphinx) -> Dict[str, Any]
-    if sphinx_version >= (2, 0):
-        app.add_builder(WebSupportBuilder)
+    app.add_builder(WebSupportBuilder)
 
     return {
         'version': 'builtin',
