@@ -1,14 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport
-    ~~~~~~~~~~~~~~~~~~~~~~~~
-
-    A Python API to easily integrate Sphinx documentation into Web
-    applications.
-
-    :copyright: Copyright 2007-2018 by the Sphinx team, see README.
-    :license: BSD, see LICENSE for details.
-"""
+"""A Python API to easily integrate Sphinx documentation into Web applications."""
 from os import path
 
 

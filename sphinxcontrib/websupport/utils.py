@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport.utils
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

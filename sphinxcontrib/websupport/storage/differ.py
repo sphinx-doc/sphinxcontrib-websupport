@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport.storage.differ
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    A differ for creating an HTML representations of proposal diffs
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""A differ for creating an HTML representations of proposal diffs."""
 
 import html
 import re

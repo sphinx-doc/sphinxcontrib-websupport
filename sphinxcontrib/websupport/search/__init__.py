@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport.search
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Server side search support for the web support package.
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""Server side search support for the web support package."""
 
 import re
 

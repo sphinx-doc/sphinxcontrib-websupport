@@ -1,11 +1,3 @@
-"""
-    pytest config for sphinx extensions
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    :copyright: Copyright 2007-2019 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
-
 from pathlib import Path
 
 import pytest

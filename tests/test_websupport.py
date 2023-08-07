@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    test_websupport
-    ~~~~~~~~~~~~~~~
-
-    Test the Web Support Package
-
-    :copyright: Copyright 2007-2018 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""Test the Web Support Package"""
 
 from sphinxcontrib.websupport import WebSupport
 from sphinxcontrib.websupport.errors import DocumentNotFoundError, \

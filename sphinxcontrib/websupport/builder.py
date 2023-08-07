@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinx.builders.websupport
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Builder for the web support package.
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""Builder for the web support extension."""
 
 from __future__ import annotations
 

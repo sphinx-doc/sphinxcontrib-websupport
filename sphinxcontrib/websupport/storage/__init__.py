@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport.storage
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Storage for the websupport package.
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""Storage for the websupport package."""
 
 
 class StorageBackend(object):

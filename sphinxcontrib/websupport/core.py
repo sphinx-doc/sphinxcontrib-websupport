@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport.core
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Base Module for web support functions.
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""Base Module for web support functions."""
 
 from __future__ import annotations
 

@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport.storage.sqlalchemystorage
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    An SQLAlchemy storage backend.
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""An SQLAlchemy storage backend."""
 
 from datetime import datetime
 

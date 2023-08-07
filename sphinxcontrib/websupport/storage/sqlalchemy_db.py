@@ -1,13 +1,6 @@
-# -*- coding: utf-8 -*-
 """
-    sphinxcontrib.websupport.storage.sqlalchemy_db
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    SQLAlchemy table and mapper definitions used by the
-    :class:`sphinxcontrib.websupport.storage.sqlalchemystorage.SQLAlchemyStorage`.
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
+SQLAlchemy table and mapper definitions used by the
+:py:class:`sphinxcontrib.websupport.storage.sqlalchemystorage.SQLAlchemyStorage`.
 """
 
 from __future__ import annotations

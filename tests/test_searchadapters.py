@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    test_searchadapters
-    ~~~~~~~~~~~~~~~~~~~
-
-    Test the Web Support Package search adapters.
-
-    :copyright: Copyright 2007-2018 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""Test the Web Support Package search adapters."""
 
 import shutil
 from io import StringIO

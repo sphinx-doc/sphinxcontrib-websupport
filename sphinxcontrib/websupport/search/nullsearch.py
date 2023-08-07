@@ -1,13 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    sphinxcontrib.websupport.search.nullsearch
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    The default search adapter, does nothing.
-
-    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
+"""The default search adapter, does nothing."""
 
 from sphinxcontrib.websupport.search import BaseSearch
 from sphinxcontrib.websupport.errors import NullSearchException
