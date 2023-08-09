@@ -47,7 +47,7 @@ jobs:
           python -m pip install .[test]
 
       - name: Test with pytest
-        run: python -m pytest --durations 25
+        run: python -m pytest -vv --durations 25
 
   test-latest-sphinx:
     runs-on: ubuntu-latest
@@ -65,7 +65,7 @@ jobs:
           python -m pip install "Sphinx @ git+https://github.com/sphinx-doc/sphinx"
 
       - name: Test with pytest
-        run: python -m pytest --durations 25
+        run: python -m pytest -vv --durations 25
 
   lint:
     runs-on: ubuntu-latest
