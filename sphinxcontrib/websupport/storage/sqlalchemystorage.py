@@ -13,8 +13,8 @@ from sphinxcontrib.websupport.storage.sqlalchemy_db import Base, Node, \
     Comment, CommentVote, Session
 from sphinxcontrib.websupport.storage.differ import CombinedHtmlDiff
 
-if sqlalchemy.__version__[:3] < '0.5':  # type: ignore
-    raise ImportError('SQLAlchemy version 0.5 or greater is required for this '
+if sqlalchemy.__version__[:3] < '1.4':  # type: ignore
+    raise ImportError('SQLAlchemy version 1.4 or greater is required for this '
                       'storage backend; you have version %s' % sqlalchemy.__version__)
 
 
@@ -26,7 +26,7 @@ class SQLAlchemyStorage(StorageBackend):
     def __init__(self, uri):
         self.engine = sqlalchemy.create_engine(uri)
         Base.metadata.bind = self.engine
-        Base.metadata.create_all()
+        Base.metadata.create_all(bind=self.engine)
         Session.configure(bind=self.engine)
 
     def pre_build(self):
@@ -109,7 +109,7 @@ class SQLAlchemyStorage(StorageBackend):
             func.count('*').label('comment_count')).group_by(
             Comment.node_id).subquery()
         nodes = session.query(Node.id, subquery.c.comment_count).outerjoin(
-            (subquery, Node.id == subquery.c.node_id)).filter(
+            subquery, Node.id == subquery.c.node_id).filter(
             Node.document == docname)
         session.close()
         session.commit()
