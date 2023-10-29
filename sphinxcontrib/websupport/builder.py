@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import html
+import os
 from os import path
 import posixpath
 import shutil
@@ -132,6 +134,41 @@ class WebSupportBuilder(PickleHTMLBuilder):
         ctx['toctree'] = lambda **kw: self._get_local_toctree(pagename, **kw)
         self.add_sidebars(pagename, ctx)
         ctx.update(addctx)
+
+        def css_tag(css) -> str:
+            attrs = []
+            for key, value in css.attributes.items():
+                if value is not None:
+                    attrs.append(f'{key}="{html.escape(value, quote=True)}"')
+            uri = pathto(os.fspath(css.filename), resource=True)
+            return f'<link {" ".join(sorted(attrs))} href="{uri}" />'
+
+        ctx['css_tag'] = css_tag
+
+        def js_tag(js) -> str:
+            if not hasattr(js, 'filename'):
+                # str value (old styled)
+                return f'<script src="{pathto(js, resource=True)}"></script>'
+
+            attrs = []
+            body = js.attributes.get('body', '')
+            for key, value in js.attributes.items():
+                if key == 'body':
+                    continue
+                if value is not None:
+                    attrs.append(f'{key}="{html.escape(value, quote=True)}"')
+
+            if not js.filename:
+                if attrs:
+                    return f'<script {" ".join(sorted(attrs))}>{body}</script>'
+                return f'<script>{body}</script>'
+
+            uri = pathto(os.fspath(js.filename), resource=True)
+            if attrs:
+                return f'<script {" ".join(sorted(attrs))} src="{uri}"></script>'
+            return f'<script src="{uri}"></script>'
+
+        ctx['js_tag'] = js_tag
 
         newtmpl = self.app.emit_firstresult('html-page-context', pagename,
                                             templatename, ctx, event_arg)
