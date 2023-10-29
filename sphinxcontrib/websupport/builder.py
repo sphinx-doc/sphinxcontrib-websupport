@@ -54,7 +54,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
             raise RuntimeError('websupport builder must be used with '
                                'the builtin templates')
         # add our custom JS
-        self.script_files.append('_static/websupport.js')
+        self.add_js_file('websupport.js')
 
     @property
     def versioning_method(self):

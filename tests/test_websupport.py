@@ -24,7 +24,7 @@ skip_if_sqlalchemy_missing = pytest.mark.skipif(
 @pytest.fixture
 def support(rootdir, tmp_path, request):
     settings = {
-        'srcdir': rootdir / 'test-root',
+        'srcdir': rootdir / 'test-root' / 'root',
         # to use same directory for 'builddir' in each 'support' fixture, using
         # 'tempdir' (static) value instead of 'tempdir' fixture value.
         # each test expect result of db value at previous test case.
@@ -61,6 +61,7 @@ def test_build(support):
 @skip_if_sqlalchemy_missing
 @with_support()
 def test_get_document(support):
+    support.build()
     with pytest.raises(DocumentNotFoundError):
         support.get_document('nonexisting')
 
@@ -72,6 +73,7 @@ def test_get_document(support):
 @skip_if_sqlalchemy_missing
 @with_support()
 def test_comments(support):
+    support.build()
     session = Session()
     nodes = session.query(Node).all()
     first_node = nodes[0]
@@ -127,6 +129,7 @@ def test_user_delete_comments(support):
         session.close()
         return support.get_data(node.id)['comments'][0]
 
+    test_comments(support)
     comment = get_comment()
     assert comment['username'] == 'user_one'
     # Make sure other normal users can't delete someone elses comments.
@@ -150,6 +153,7 @@ def moderation_callback(comment):
 @skip_if_sqlalchemy_missing
 @with_support(moderation_callback=moderation_callback)
 def test_moderation(support):
+    support.build()
     session = Session()
     nodes = session.query(Node).all()
     node = nodes[7]
@@ -182,6 +186,7 @@ def test_moderator_delete_comments(support):
         session.close()
         return support.get_data(node.id, moderator=True)['comments'][1]
 
+    test_comments(support)
     comment = get_comment()
     support.delete_comment(comment['id'], username='user_two',
                            moderator=True)
@@ -192,6 +197,7 @@ def test_moderator_delete_comments(support):
 @skip_if_sqlalchemy_missing
 @with_support()
 def test_update_username(support):
+    test_comments(support)
     support.update_username('user_two', 'new_user_two')
     session = Session()
     comments = session.query(Comment).\
@@ -211,6 +217,7 @@ def test_update_username(support):
 @skip_if_sqlalchemy_missing
 @with_support()
 def test_proposals(support):
+    support.build()
     session = Session()
     node = session.query(Node).first()
 
@@ -227,6 +234,7 @@ def test_proposals(support):
 @skip_if_sqlalchemy_missing
 @with_support()
 def test_voting(support):
+    test_comments(support)
     session = Session()
     nodes = session.query(Node).all()
     node = nodes[0]
