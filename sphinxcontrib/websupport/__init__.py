@@ -2,8 +2,8 @@
 from os import path
 
 
-__version__ = '1.2.6'
-__version_info__ = (1, 2, 6)
+__version__ = '1.2.7'
+__version_info__ = (1, 2, 7)
 
 package_dir = path.abspath(path.dirname(__file__))
 
