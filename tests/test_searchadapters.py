@@ -1,9 +1,6 @@
 """Test the Web Support Package search adapters."""
 
-import shutil
 from io import StringIO
-
-import pytest
 
 from sphinxcontrib.websupport import WebSupport
 
@@ -11,11 +8,6 @@ from test_websupport import skip_if_sqlalchemy_missing
 from util import skip_unless_importable
 
 
-def teardown_module(tmp_path):
-    shutil.rmtree(tmp_path / 'websupport', ignore_errors=True)
-
-
-@pytest.fixture
 def search_adapter_helper(rootdir, tmp_path, adapter):
     support = WebSupport(
         srcdir=rootdir / 'test-searchadapters',
@@ -61,5 +53,5 @@ def test_xapian(rootdir, tmp_path):
 
 @skip_unless_importable('whoosh', 'needs whoosh package installed')
 @skip_if_sqlalchemy_missing
-def test_whoosh(rootdir, tmp_path, adapter):
+def test_whoosh(rootdir, tmp_path):
     search_adapter_helper(rootdir, tmp_path, 'whoosh')

@@ -9,8 +9,8 @@ from datetime import datetime
 
 from sqlalchemy import Column, Integer, Text, String, Boolean, \
     ForeignKey, DateTime
-from sqlalchemy.orm import relation, sessionmaker, aliased
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker, aliased, \
+    declarative_base
 
 Base = declarative_base()
 Session = sessionmaker()
@@ -127,10 +127,10 @@ class Comment(Base):  # type: ignore
     path = Column(String(256), index=True)
 
     node_id = Column(String(32), ForeignKey(db_prefix + 'nodes.id'))
-    node = relation(Node, backref="comments")
+    node = relationship(Node, backref="comments")
 
-    votes = relation(CommentVote, backref="comment",
-                     cascade="all")
+    votes = relationship(CommentVote, backref="comment",
+                         cascade="all")
 
     def __init__(self, text, displayed, username, rating, time,
                  proposal, proposal_diff):
