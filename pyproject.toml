@@ -50,6 +50,8 @@ dynamic = ["version"]
 [project.optional-dependencies]
 test = [
     "pytest",
+]
+whoosh = [
     "sqlalchemy",
     "whoosh",
 ]
