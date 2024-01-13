@@ -52,8 +52,6 @@ test = [
     "pytest",
     "sqlalchemy",
     "whoosh",
-    # greenlet is required by sqlalchemy; 3.12 only supported in 3.0.0a1+
-    "greenlet>=3.0.0a1; python_version >= '3.12'",
 ]
 lint = [
     "flake8",
