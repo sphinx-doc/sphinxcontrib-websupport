@@ -87,4 +87,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           name: "sphinxcontrib-websupport ${{ steps.get_version.outputs.version }}"
-          body: "Changelog: https://www.sphinx-doc.org/en/master/changes.html"
+          body: "Changelog: https://github.com/sphinx-doc/sphinxcontrib-websupport/blob/master/CHANGES.rst"
