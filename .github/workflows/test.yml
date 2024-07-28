@@ -30,14 +30,14 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         if: "!endsWith(matrix.python, '-dev')"
         with:
           python-version: ${{ matrix.python }}
       - name: Set up Python ${{ matrix.python }} (deadsnakes)
-        uses: deadsnakes/action@v2.1.1
+        uses: deadsnakes/action@v3.1.0
         if: "endsWith(matrix.python, '-dev')"
         with:
           python-version: ${{ matrix.python }}
@@ -53,9 +53,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3"
       - name: Install dependencies
@@ -76,9 +76,9 @@ jobs:
           - mypy
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3"
 
