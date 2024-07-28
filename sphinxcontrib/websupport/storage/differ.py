@@ -1,11 +1,13 @@
 """A differ for creating an HTML representations of proposal diffs."""
 
+from __future__ import annotations
+
 import html
 import re
 from difflib import Differ
 
 
-class CombinedHtmlDiff(object):
+class CombinedHtmlDiff:
     """Create an HTML representation of the differences between two pieces
     of text.
     """
@@ -15,13 +17,15 @@ class CombinedHtmlDiff(object):
         proposal = html.escape(proposal)
 
         differ = Differ()
-        self.diff = list(differ.compare(source.splitlines(1),
-                                        proposal.splitlines(1)))
+        self.diff: list[str] = list(differ.compare(
+            source.splitlines(keepends=True),
+            proposal.splitlines(keepends=True),
+        ))
 
-    def make_text(self):
+    def make_text(self) -> str:
         return '\n'.join(self.diff)
 
-    def make_html(self):
+    def make_html(self) -> str:
         """Return the HTML representation of the differences between
         `source` and `proposal`.
 
@@ -42,7 +46,7 @@ class CombinedHtmlDiff(object):
                 break
         return ''.join(html).rstrip()
 
-    def _handle_line(self, line, next=None):
+    def _handle_line(self, line: str, next: str | None = None) -> str:
         """Handle an individual line in a diff."""
         prefix = line[0]
         text = line[2:]
@@ -57,20 +61,22 @@ class CombinedHtmlDiff(object):
             text = self._highlight_text(text, next, tag)
         css_class = prefix == '+' and 'prop-added' or 'prop-removed'
 
-        return '<span class="%s">%s</span>\n' % (css_class, text.rstrip())
+        return f'<span class="{css_class}">{text.rstrip()}</span>\n'
 
-    def _highlight_text(self, text, next, tag):
+    def _highlight_text(self, text: str, next: str, tag: str) -> str:
         """Highlight the specific changes made to a line by adding
         <ins> and <del> tags.
         """
         next = next[2:]
-        new_text = []
+        new_text: list[str] = []
         start = 0
         for match in self.highlight_regex.finditer(next):
-            new_text.append(text[start:match.start()])
-            new_text.append('<%s>' % tag)
-            new_text.append(text[match.start():match.end()])
-            new_text.append('</%s>' % tag)
+            new_text.extend((
+                text[start:match.start()],
+                f'<{tag}>',
+                text[match.start():match.end()],
+                f'</{tag}>',
+            ))
             start = match.end()
         new_text.append(text[start:])
         return ''.join(new_text)

@@ -3,49 +3,50 @@
 from __future__ import annotations
 
 import html
-import sys
+import importlib
 import pickle
 import posixpath
+import sys
 from os import path
 
-from jinja2 import Environment, FileSystemLoader
 from docutils.core import publish_parts
-
+from jinja2 import Environment, FileSystemLoader
 from sphinx.locale import _
 from sphinx.util.docutils import docutils_namespace
 from sphinx.util.osutil import ensuredir
-from sphinxcontrib.websupport import errors
-from sphinxcontrib.websupport import package_dir
-from sphinxcontrib.websupport.search import BaseSearch, SEARCH_ADAPTERS
+
+from sphinxcontrib.websupport import errors, package_dir
+from sphinxcontrib.websupport.search import SEARCH_ADAPTERS, BaseSearch
 from sphinxcontrib.websupport.storage import StorageBackend
 
 try:
     from sphinxcontrib.serializinghtml.jsonimpl import dumps as dump_json
 except ImportError:
-    from sphinx.util.jsonimpl import dumps as dump_json
+    from json import dumps as dump_json
 
 
-class WebSupport(object):
+class WebSupport:
     """The main API class for the web support package. All interactions
     with the web support package should occur through this class.
     """
-    def __init__(self,
-                 srcdir=None,      # only required for building
-                 builddir='',      # the dir with data/static/doctrees subdirs
-                 datadir=None,     # defaults to builddir/data
-                 staticdir=None,   # defaults to builddir/static
-                 doctreedir=None,  # defaults to builddir/doctrees
-                 search=None,      # defaults to no search
-                 storage=None,     # defaults to SQLite in datadir
-                 buildername='websupport',
-                 confoverrides={},
-                 status=sys.stdout,
-                 warning=sys.stderr,
-                 moderation_callback=None,
-                 allow_anonymous_comments=True,
-                 docroot='',
-                 staticroot='static',
-                 ):
+    def __init__(
+        self,
+        srcdir=None,      # only required for building
+        builddir='',      # the dir with data/static/doctrees subdirs
+        datadir=None,     # defaults to builddir/data
+        staticdir=None,   # defaults to builddir/static
+        doctreedir=None,  # defaults to builddir/doctrees
+        search=None,      # defaults to no search
+        storage=None,     # defaults to SQLite in datadir
+        buildername='websupport',
+        confoverrides=None,
+        status=sys.stdout,
+        warning=sys.stderr,
+        moderation_callback=None,
+        allow_anonymous_comments=True,
+        docroot='',
+        staticroot='static',
+    ):
         # directories
         self.srcdir = srcdir
         self.builddir = builddir
@@ -58,7 +59,7 @@ class WebSupport(object):
         self.docroot = docroot.strip('/')
 
         self.buildername = buildername
-        self.confoverrides = confoverrides
+        self.confoverrides = confoverrides or {}
 
         self.status = status
         self.warning = warning
@@ -69,7 +70,7 @@ class WebSupport(object):
         self._init_search(search)
         self._init_storage(storage)
 
-        self._globalcontext = None  # type: ignore
+        self._globalcontext = None
 
         self._make_base_comment_options()
 
@@ -82,8 +83,7 @@ class WebSupport(object):
         else:
             # If a StorageBackend isn't provided, use the default
             # SQLAlchemy backend.
-            from sphinxcontrib.websupport.storage.sqlalchemystorage \
-                import SQLAlchemyStorage
+            from sphinxcontrib.websupport.storage.sqlalchemystorage import SQLAlchemyStorage
             if not storage:
                 # no explicit DB path given; create default sqlite database
                 db_path = path.join(self.datadir, 'db', 'websupport.db')
@@ -97,11 +97,11 @@ class WebSupport(object):
 
     def _init_search(self, search):
         if isinstance(search, BaseSearch):
-            self.search = search
+            self.search: BaseSearch = search
         else:
             mod, cls = SEARCH_ADAPTERS[search or 'null']
             mod = 'sphinxcontrib.websupport.search.' + mod
-            SearchClass = getattr(__import__(mod, None, None, [cls]), cls)
+            SearchClass = getattr(importlib.import_module(mod), cls)
             search_path = path.join(self.datadir, 'search')
             self.search = SearchClass(search_path)
         self.results_template = \
@@ -119,15 +119,20 @@ class WebSupport(object):
         It will also save node data to the database.
         """
         if not self.srcdir:
-            raise RuntimeError('No srcdir associated with WebSupport object')
+            msg = 'No srcdir associated with WebSupport object'
+            raise RuntimeError(msg)
 
         with docutils_namespace():
             from sphinx.application import Sphinx
             app = Sphinx(self.srcdir, self.srcdir, self.outdir, self.doctreedir,
                          self.buildername, self.confoverrides, status=self.status,
                          warning=self.warning)
-            app.builder.set_webinfo(self.staticdir, self.staticroot,  # type: ignore
-                                    self.search, self.storage)
+            app.builder.set_webinfo(  # type: ignore[attr-defined]
+                self.staticdir,
+                self.staticroot,
+                self.search,
+                self.storage,
+            )
 
             self.storage.pre_build()
             app.build()
@@ -191,13 +196,14 @@ class WebSupport(object):
         try:
             with open(infilename, 'rb') as f:
                 document = pickle.load(f)
-        except IOError:
-            raise errors.DocumentNotFoundError(
-                'The document "%s" could not be found' % docname)
+        except OSError as err:
+            msg = f'The document "{docname}" could not be found'
+            raise errors.DocumentNotFoundError(msg) from err
 
         comment_opts = self._make_comment_options(username, moderator)
         comment_meta = self._make_metadata(
-            self.storage.get_metadata(docname, moderator))
+            self.storage.get_metadata(docname, moderator),
+        )
 
         document['script'] = comment_opts + comment_meta + document['script']
         return document
@@ -224,7 +230,7 @@ class WebSupport(object):
             'body': self.results_template.render(ctx),
             'title': 'Search Results',
             'sidebar': '',
-            'relbar': ''
+            'relbar': '',
         }
         return document
 
@@ -357,7 +363,8 @@ class WebSupport(object):
         """
         value = int(value)
         if not -1 <= value <= 1:
-            raise ValueError('vote value %s out of range (-1, 1)' % value)
+            msg = f'vote value {value} out of range (-1, 1)'
+            raise ValueError(msg)
         self.storage.process_vote(comment_id, username, value)
 
     def update_username(self, old_username, new_username):
@@ -391,7 +398,7 @@ class WebSupport(object):
         that remains the same throughout the lifetime of the
         :class:`~sphinxcontrib.websupport.WebSupport` object.
         """
-        self.base_comment_opts: dict[str, str] = {}
+        self.base_comment_opts: dict[str, str | bool] = {}
 
         if self.docroot != '':
             comment_urls = [
@@ -399,7 +406,7 @@ class WebSupport(object):
                 ('getCommentsURL', '_get_comments'),
                 ('processVoteURL', '_process_vote'),
                 ('acceptCommentURL', '_accept_comment'),
-                ('deleteCommentURL', '_delete_comment')
+                ('deleteCommentURL', '_delete_comment'),
             ]
             for key, value in comment_urls:
                 self.base_comment_opts[key] = \
@@ -413,7 +420,7 @@ class WebSupport(object):
                 ('upArrow', 'up.png'),
                 ('upArrowPressed', 'up-pressed.png'),
                 ('downArrow', 'down.png'),
-                ('downArrowPressed', 'down-pressed.png')
+                ('downArrowPressed', 'down-pressed.png'),
             ]
             for key, value in static_urls:
                 self.base_comment_opts[key] = \
@@ -433,18 +440,18 @@ class WebSupport(object):
                 'username': username,
                 'moderator': moderator,
             })
-        return '''\
+        return f'''\
         <script type="text/javascript">
-        var COMMENT_OPTIONS = %s;
+        var COMMENT_OPTIONS = {dump_json(rv)};
         </script>
-        ''' % dump_json(rv)
+        '''
 
     def _make_metadata(self, data):
-        return '''\
+        return f'''\
         <script type="text/javascript">
-        var COMMENT_METADATA = %s;
+        var COMMENT_METADATA = {dump_json(data)};
         </script>
-        ''' % dump_json(data)
+        '''
 
     def _parse_comment_text(self, text):
         settings = {'file_insertion_enabled': False,

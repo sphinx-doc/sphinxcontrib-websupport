@@ -1,27 +1,31 @@
 """Server side search support for the web support package."""
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
-class BaseSearch(object):
+class BaseSearch:
     def __init__(self, path):
         pass
 
-    def init_indexing(self, changed=[]):
+    def init_indexing(self, changed: Sequence[str] = ()) -> None:
         """Called by the builder to initialize the search indexer. `changed`
         is a list of pagenames that will be reindexed. You may want to remove
         these from the search index before indexing begins.
 
         :param changed: a list of pagenames that will be re-indexed
         """
-        pass
 
     def finish_indexing(self):
         """Called by the builder when writing has been completed. Use this
         to perform any finalization or cleanup actions after indexing is
         complete.
         """
-        pass
 
     def feed(self, pagename, filename, title, doctree):
         """Called by the builder to add a doctree to the index. Converts the
@@ -64,7 +68,7 @@ class BaseSearch(object):
 
         :param q: the search query string.
         """
-        self.context_re = re.compile('|'.join(q.split()), re.I)
+        self.context_re = re.compile('|'.join(q.split()), re.IGNORECASE)
         return self.handle_query(q)
 
     def handle_query(self, q):

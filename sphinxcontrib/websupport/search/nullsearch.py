@@ -1,7 +1,9 @@
 """The default search adapter, does nothing."""
 
-from sphinxcontrib.websupport.search import BaseSearch
+from __future__ import annotations
+
 from sphinxcontrib.websupport.errors import NullSearchException
+from sphinxcontrib.websupport.search import BaseSearch
 
 
 class NullSearch(BaseSearch):
@@ -12,4 +14,5 @@ class NullSearch(BaseSearch):
         pass
 
     def query(self, q):
-        raise NullSearchException('No search adapter specified.')
+        msg = 'No search adapter specified.'
+        raise NullSearchException(msg)

@@ -1,19 +1,28 @@
 """Test the Web Support Package"""
 
+from __future__ import annotations
+
+import pytest
+
 from sphinxcontrib.websupport import WebSupport
-from sphinxcontrib.websupport.errors import DocumentNotFoundError, \
-    CommentNotAllowedError, UserNotAuthorizedError
+from sphinxcontrib.websupport.errors import (
+    CommentNotAllowedError,
+    DocumentNotFoundError,
+    UserNotAuthorizedError,
+)
 from sphinxcontrib.websupport.storage import StorageBackend
 from sphinxcontrib.websupport.storage.differ import CombinedHtmlDiff
+
 try:
-    from sphinxcontrib.websupport.storage.sqlalchemystorage import Session, \
-        Comment, CommentVote
     from sphinxcontrib.websupport.storage.sqlalchemy_db import Node
+    from sphinxcontrib.websupport.storage.sqlalchemystorage import (  # type: ignore[attr-defined]
+        Comment,
+        CommentVote,
+        Session,
+    )
     sqlalchemy_missing = False
 except ImportError:
     sqlalchemy_missing = True
-
-import pytest
 
 skip_if_sqlalchemy_missing = pytest.mark.skipif(
     sqlalchemy_missing,
@@ -28,14 +37,14 @@ def support(rootdir, tmp_path, request):
         # to use same directory for 'builddir' in each 'support' fixture, using
         # 'tempdir' (static) value instead of 'tempdir' fixture value.
         # each test expect result of db value at previous test case.
-        'builddir': tmp_path / 'websupport'
+        'builddir': tmp_path / 'websupport',
     }
     marker = request.node.get_closest_marker('support')
     if marker:
         settings.update(marker.kwargs)
 
     support = WebSupport(**settings)
-    yield support
+    return support
 
 
 with_support = pytest.mark.support
@@ -66,8 +75,10 @@ def test_get_document(support):
         support.get_document('nonexisting')
 
     contents = support.get_document('contents')
-    assert contents['title'] and contents['body'] \
-        and contents['sidebar'] and contents['relbar']
+    assert contents['title']
+    assert contents['body']
+    assert contents['sidebar']
+    assert contents['relbar']
 
 
 @skip_if_sqlalchemy_missing
@@ -244,7 +255,7 @@ def test_voting(support):
     def check_rating(val):
         data = support.get_data(node.id)
         comment = data['comments'][0]
-        assert comment['rating'] == val, '%s != %s' % (comment['rating'], val)
+        assert comment['rating'] == val, f'{comment["rating"]} != {val}'
 
     support.process_vote(comment['id'], 'user_one', '1')
     support.process_vote(comment['id'], 'user_two', '1')
@@ -256,19 +267,19 @@ def test_voting(support):
     check_rating(2)
 
     # Make sure a vote with value > 1 or < -1 can't be cast.
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'vote value 2 out of range \(-1, 1\)'):
         support.process_vote(comment['id'], 'user_one', '2')
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match=r'vote value -2 out of range \(-1, 1\)'):
         support.process_vote(comment['id'], 'user_one', '-2')
 
     # Make sure past voting data is associated with comments when they are
     # fetched.
     data = support.get_data(str(node.id), username='user_two')
     comment = data['comments'][0]
-    assert comment['vote'] == 1, '%s != 1' % comment['vote']
+    assert comment['vote'] == 1, '{} != 1'.format(comment['vote'])
 
 
-def test_differ():
+def test_differ() -> None:
     source = 'Lorem ipsum dolor sit amet,\nconsectetur adipisicing elit,\n' \
         'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     prop = 'Lorem dolor sit amet,\nconsectetur nihil adipisicing elit,\n' \

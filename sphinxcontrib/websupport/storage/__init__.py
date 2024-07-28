@@ -1,12 +1,13 @@
 """Storage for the websupport package."""
 
+from __future__ import annotations
 
-class StorageBackend(object):
+
+class StorageBackend:
     def pre_build(self):
         """Called immediately before the build process begins. Use this
         to prepare the StorageBackend for the addition of nodes.
         """
-        pass
 
     def has_node(self, id):
         """Check to see if a node exists.
@@ -28,7 +29,6 @@ class StorageBackend(object):
         """Called after a build has completed. Use this to finalize the
         addition of nodes if needed.
         """
-        pass
 
     def add_comment(self, text, displayed, username, time,
                     proposal, node_id, parent_id, moderator):

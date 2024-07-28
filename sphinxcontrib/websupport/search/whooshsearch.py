@@ -1,11 +1,13 @@
 """Whoosh search adapter."""
 
-from whoosh import index
-from whoosh.fields import Schema, ID, TEXT
-from whoosh.qparser import QueryParser
-from whoosh.analysis import StemmingAnalyzer
+from __future__ import annotations
 
 from sphinx.util.osutil import ensuredir
+from whoosh import index
+from whoosh.analysis import StemmingAnalyzer
+from whoosh.fields import ID, TEXT, Schema
+from whoosh.qparser import QueryParser
+
 from sphinxcontrib.websupport.search import BaseSearch
 
 
@@ -25,7 +27,7 @@ class WhooshSearch(BaseSearch):
             self.index = index.create_in(db_path, schema=self.schema)
         self.qparser = QueryParser('text', self.schema)
 
-    def init_indexing(self, changed=[]):
+    def init_indexing(self, changed=()):
         for changed_path in changed:
             self.index.delete_by_term('path', changed_path)
         self.index_writer = self.index.writer()

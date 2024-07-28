@@ -4,27 +4,28 @@ from __future__ import annotations
 
 import html
 import os
-from os import path
 import posixpath
 import shutil
+from os import path
 from typing import TYPE_CHECKING, Any
 
 from docutils.io import StringOutput
-
 from sphinx.jinja2glue import BuiltinTemplateLoader
-from sphinx.util.osutil import os_path, relative_uri, ensuredir, copyfile
+from sphinx.util.osutil import copyfile, ensuredir, os_path, relative_uri
+
 from sphinxcontrib.serializinghtml import PickleHTMLBuilder
-
 from sphinxcontrib.websupport import package_dir
-from sphinxcontrib.websupport.writer import WebSupportTranslator
 from sphinxcontrib.websupport.utils import is_commentable
-
+from sphinxcontrib.websupport.writer import WebSupportTranslator
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
 
     from docutils import nodes
     from sphinx.application import Sphinx
+    from sphinx.builders.html._assets import _CascadingStyleSheet, _JavaScript
+
+    from sphinxcontrib.websupport.search import BaseSearch
 
 RESOURCES = [
     'ajax-loader.gif',
@@ -48,34 +49,34 @@ class WebSupportBuilder(PickleHTMLBuilder):
     versioning_compare = True  # for commentable node's uuid stability.
 
     def init(self) -> None:
-        PickleHTMLBuilder.init(self)
+        super().init()
         # templates are needed for this builder, but the serializing
         # builder does not initialize them
         self.init_templates()
         if not isinstance(self.templates, BuiltinTemplateLoader):
-            raise RuntimeError('websupport builder must be used with '
-                               'the builtin templates')
+            msg = 'websupport builder must be used with the builtin templates'
+            raise RuntimeError(msg)
         # add our custom JS
         self.add_js_file('websupport.js')
 
     @property
-    def versioning_method(self):
+    def versioning_method(self) -> Callable[[nodes.Node], bool]:  # type: ignore[override]
         return is_commentable
 
     def set_webinfo(
         self,
         staticdir: str,
         virtual_staticdir: str,
-        search: Any,
+        search: BaseSearch,
         storage: str,
     ) -> None:
         self.staticdir = staticdir
         self.virtual_staticdir = virtual_staticdir
-        self.search = search
+        self.search: BaseSearch = search  # type: ignore[assignment]
         self.storage = storage
 
     def prepare_writing(self, docnames: Iterable[str]) -> None:
-        PickleHTMLBuilder.prepare_writing(self, docnames)
+        super().prepare_writing(set(docnames))
         self.globalcontext['no_search_suffix'] = True
 
     def write_doc(self, docname: str, doctree: nodes.document) -> None:
@@ -95,16 +96,16 @@ class WebSupportBuilder(PickleHTMLBuilder):
         ctx = self.get_doc_context(docname, body, metatags)
         self.handle_page(docname, ctx, event_arg=doctree)
 
-    def write_doc_serialized(self, docname: str, doctree: nodes.Node) -> None:
+    def write_doc_serialized(self, docname: str, doctree: nodes.document) -> None:
         self.imgpath = '/' + posixpath.join(self.virtual_staticdir, self.imagedir)
         self.post_process_images(doctree)
-        title = self.env.longtitles.get(docname)
-        title = title and self.render_partial(title)['title'] or ''
+        title_node = self.env.longtitles.get(docname)
+        title = title_node and self.render_partial(title_node)['title'] or ''
         self.index_page(docname, doctree, title)
 
     def load_indexer(self, docnames: Iterable[str]) -> None:
-        self.indexer = self.search  # type: ignore
-        self.indexer.init_indexing(changed=docnames)  # type: ignore
+        self.indexer = self.search  # type: ignore[assignment]
+        self.indexer.init_indexing(changed=list(docnames))  # type: ignore[union-attr]
 
     def _render_page(
         self,
@@ -135,7 +136,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.add_sidebars(pagename, ctx)
         ctx.update(addctx)
 
-        def css_tag(css) -> str:
+        def css_tag(css: _CascadingStyleSheet) -> str:
             attrs = []
             for key, value in css.attributes.items():
                 if value is not None:
@@ -145,10 +146,10 @@ class WebSupportBuilder(PickleHTMLBuilder):
 
         ctx['css_tag'] = css_tag
 
-        def js_tag(js) -> str:
+        def js_tag(js: _JavaScript) -> str:
             if not hasattr(js, 'filename'):
                 # str value (old styled)
-                return f'<script src="{pathto(js, resource=True)}"></script>'
+                return f'<script src="{pathto(js, resource=True)}"></script>'  # type: ignore[arg-type]
 
             attrs = []
             body = js.attributes.get('body', '')
@@ -216,7 +217,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.globalcontext['css'] = doc_ctx['css']
         self.globalcontext['script'] = doc_ctx['script']
 
-        PickleHTMLBuilder.handle_finish(self)
+        super().handle_finish()
 
         # move static stuff over to separate directory
         directories = [self.imagedir, '_static']
@@ -239,7 +240,7 @@ class WebSupportBuilder(PickleHTMLBuilder):
                 shutil.copy(src, dst)
 
     def dump_search_index(self) -> None:
-        self.indexer.finish_indexing()  # type: ignore
+        self.indexer.finish_indexing()  # type: ignore[union-attr]
 
 
 def setup(app: Sphinx) -> dict[str, Any]:

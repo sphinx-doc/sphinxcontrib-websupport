@@ -1,8 +1,10 @@
 """Xapian search adapter."""
 
-import xapian
+from __future__ import annotations
 
+import xapian
 from sphinx.util.osutil import ensuredir
+
 from sphinxcontrib.websupport.search import BaseSearch
 
 
@@ -16,7 +18,7 @@ class XapianSearch(BaseSearch):
     def __init__(self, db_path):
         self.db_path = db_path
 
-    def init_indexing(self, changed=[]):
+    def init_indexing(self, changed=()):
         ensuredir(self.db_path)
         self.database = xapian.WritableDatabase(self.db_path,
                                                 xapian.DB_CREATE_OR_OPEN)
@@ -31,7 +33,7 @@ class XapianSearch(BaseSearch):
     def add_document(self, pagename, filename, title, text):
         self.database.begin_transaction()
         # sphinx_page_path is used to easily retrieve documents by path.
-        sphinx_page_path = '"sphinxpagepath%s"' % pagename.replace('/', '_')
+        sphinx_page_path = f'"sphinxpagepath{pagename.replace("/", "_")}"'
         # Delete the old document if it exists.
         self.database.delete_document(sphinx_page_path)
 

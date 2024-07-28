@@ -1,4 +1,16 @@
-import sys, os
+from __future__ import annotations
+
+import os
+import sys
+from typing import TYPE_CHECKING
+
+from docutils import nodes
+from docutils.parsers.rst import Directive, directives
+from sphinx import addnodes
+
+if TYPE_CHECKING:
+    from sphinx.application import Sphinx
+    from sphinx.util.typing import ExtensionMetadata
 
 sys.path.append(os.path.abspath('.'))
 
@@ -76,15 +88,10 @@ autodoc_mock_imports = [
 ]
 
 # modify tags from conf.py
-tags.add('confpytag')
+tags.add('confpytag')  # NoQA: F821
+
 
 # -- extension API
-
-from docutils import nodes
-from docutils.parsers.rst import Directive
-from sphinx import addnodes
-
-
 def userdesc_parse(env, sig, signode):
     x, y = sig.split(':')
     signode += addnodes.desc_name(x, x)
@@ -94,15 +101,18 @@ def userdesc_parse(env, sig, signode):
 
 
 class ClassDirective(Directive):
-    option_spec = {'opt': lambda x: x}
+    option_spec = {
+        'opt': directives.unchanged,
+    }
 
     def run(self):
-        return [nodes.strong(text='from class: %s' % self.options['opt'])]
+        return [nodes.strong(text=f'from class: {self.options["opt"]}')]
 
 
-def setup(app):
+def setup(app: Sphinx) -> ExtensionMetadata:
     app.add_config_value('value_from_conf_py', 42, False)
     app.add_directive('clsdir', ClassDirective)
     app.add_object_type('userdesc', 'userdescrole', '%s (userdesc)',
                         userdesc_parse, objname='user desc')
     app.add_js_file('file://moo.js')
+    return {}

@@ -1,21 +1,30 @@
 """An SQLAlchemy storage backend."""
 
-from datetime import datetime
+from __future__ import annotations
+
+from datetime import datetime, timezone
 
 import sqlalchemy
 from sqlalchemy.orm import aliased
 from sqlalchemy.sql import func
 
-from sphinxcontrib.websupport.errors import CommentNotAllowedError, \
-    UserNotAuthorizedError
+from sphinxcontrib.websupport.errors import CommentNotAllowedError, UserNotAuthorizedError
 from sphinxcontrib.websupport.storage import StorageBackend
-from sphinxcontrib.websupport.storage.sqlalchemy_db import Base, Node, \
-    Comment, CommentVote, Session
 from sphinxcontrib.websupport.storage.differ import CombinedHtmlDiff
+from sphinxcontrib.websupport.storage.sqlalchemy_db import (
+    Base,
+    Comment,
+    CommentVote,
+    Node,
+    Session,
+)
 
-if sqlalchemy.__version__[:3] < '1.4':  # type: ignore
-    raise ImportError('SQLAlchemy version 1.4 or greater is required for this '
-                      'storage backend; you have version %s' % sqlalchemy.__version__)
+if sqlalchemy.__version__[:3] < '1.4':
+    msg = (
+        'SQLAlchemy version 1.4 or greater is required for this storage backend; '
+        f'you have version {sqlalchemy.__version__}'
+    )
+    raise ImportError(msg)
 
 
 class SQLAlchemyStorage(StorageBackend):
@@ -57,14 +66,13 @@ class SQLAlchemyStorage(StorageBackend):
             proposal_diff = differ.make_html()
             proposal_diff_text = differ.make_text()
         elif parent_id:
-            parent = session.query(Comment.displayed).\
-                filter(Comment.id == parent_id).one()
+            parent = session.query(Comment.displayed).filter(Comment.id == parent_id).one()
             if not parent.displayed:
-                raise CommentNotAllowedError(
-                    "Can't add child to a parent that is not displayed")
+                msg = "Can't add child to a parent that is not displayed"
+                raise CommentNotAllowedError(msg)
 
         comment = Comment(text, displayed, username, 0,
-                          time or datetime.now(), proposal, proposal_diff)
+                          time or datetime.now(tz=timezone.utc), proposal, proposal_diff)
         session.add(comment)
         session.flush()
         # We have to flush the session before setting the path so the
@@ -113,7 +121,7 @@ class SQLAlchemyStorage(StorageBackend):
             Node.document == docname)
         session.close()
         session.commit()
-        return dict([(k, v or 0) for k, v in nodes])
+        return {k: v or 0 for k, v in nodes}
 
     def get_data(self, node_id, username, moderator):
         session = Session()
@@ -159,7 +167,7 @@ class SQLAlchemyStorage(StorageBackend):
     def accept_comment(self, comment_id):
         session = Session()
         session.query(Comment).filter(Comment.id == comment_id).update(
-            {Comment.displayed: True}
+            {Comment.displayed: True},
         )
 
         session.commit()

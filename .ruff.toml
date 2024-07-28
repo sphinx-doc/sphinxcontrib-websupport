@@ -1,0 +1,53 @@
+target-version = "py39"  # Pin Ruff to Python 3.9
+output-format = "full"
+line-length = 95
+
+[lint]
+preview = true
+select = [
+#    "ANN",   # flake8-annotations
+    "C4",    # flake8-comprehensions
+    "COM",   # flake8-commas
+    "B",     # flake8-bugbear
+    "DTZ",   # flake8-datetimez
+    "E",     # pycodestyle
+    "EM",    # flake8-errmsg
+    "EXE",   # flake8-executable
+    "F",     # pyflakes
+    "FA",    # flake8-future-annotations
+    "FLY",   # flynt
+    "FURB",  # refurb
+    "G",     # flake8-logging-format
+    "I",     # isort
+    "ICN",   # flake8-import-conventions
+    "INT",   # flake8-gettext
+    "LOG",   # flake8-logging
+    "PERF",  # perflint
+    "PGH",   # pygrep-hooks
+    "PIE",   # flake8-pie
+    "PT",    # flake8-pytest-style
+    "SIM",   # flake8-simplify
+    "SLOT",  # flake8-slots
+    "TCH",   # flake8-type-checking
+    "UP",    # pyupgrade
+    "W",     # pycodestyle
+    "YTT",   # flake8-2020
+]
+ignore = [
+    "E116",
+    "E241",
+    "E251",
+]
+
+[lint.per-file-ignores]
+"tests/*" = [
+    "ANN",  # tests don't need annotations
+]
+
+[lint.isort]
+forced-separate = [
+    "tests",
+]
+required-imports = [
+    "from __future__ import annotations",
+]

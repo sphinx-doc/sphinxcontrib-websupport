@@ -1,5 +1,7 @@
-from docutils.parsers import Parser
+from __future__ import annotations
+
 from docutils import nodes
+from docutils.parsers import Parser
 
 
 class Parser(Parser):
