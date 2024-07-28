@@ -75,7 +75,7 @@ name = "sphinxcontrib.websupport"
 [tool.flit.sdist]
 include = [
     "CHANGES.rst",
-    "LICENSE",
+    "LICENCE.rst",
     # Tests
     "tests/",
     "tox.ini",
