@@ -1,3 +1,10 @@
+Release 2.0.0 (2024-07-28)
+==========================
+
+* Adopt Ruff
+* Tighten MyPy settings
+* Update GitHub actions versions
+
 Release 1.2.7 (2024-01-13)
 ==========================
 

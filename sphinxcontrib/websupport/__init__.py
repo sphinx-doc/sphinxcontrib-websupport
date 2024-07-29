@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from os import path
 
-__version__ = '1.2.7'
-__version_info__ = (1, 2, 7)
+__version__ = '2.0.0'
+__version_info__ = (2, 0, 0)
 
 package_dir = path.abspath(path.dirname(__file__))
 
