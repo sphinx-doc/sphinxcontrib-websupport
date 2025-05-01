@@ -9,6 +9,6 @@ pytest_plugins = (
 )
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='session')  # type: ignore[misc]
 def rootdir() -> Path:
     return Path(__file__).resolve().parent / 'roots'

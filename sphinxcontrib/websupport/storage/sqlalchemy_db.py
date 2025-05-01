@@ -5,10 +5,11 @@ SQLAlchemy table and mapper definitions used by the
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime
 
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import aliased, declarative_base, relationship, sessionmaker
+from sqlalchemy.sql.expression import true
 
 Base = declarative_base()
 Session = sessionmaker()
@@ -51,7 +52,7 @@ class Node(Base):  # type: ignore[misc,valid-type]
 
         # Filter out all comments that are not moderated yet.
         if not moderator:
-            q = q.filter(Comment.displayed is True)
+            q = q.filter(Comment.displayed == true())
 
         # Retrieve all results. Results must be ordered by Comment.path
         # so that we can easily transform them from a flat list to a tree.
@@ -159,7 +160,7 @@ class Comment(Base):  # type: ignore[misc,valid-type]
         """Creates a serializable representation of the comment. This is
         converted to JSON, and used on the client side.
         """
-        delta = datetime.now(tz=timezone.utc) - self.time
+        delta = datetime.now() - self.time  # noqa: DTZ005
 
         time = {
             "year": self.time.year,

@@ -116,9 +116,11 @@ enable_error_code = [
 
 [[tool.mypy.overrides]]
 module = [
+    "pytest",
     "sqlalchemy",
     "sqlalchemy.orm",
     "sqlalchemy.sql",
+    "sqlalchemy.sql.expression",
     "whoosh",
     "whoosh.analysis",
     "whoosh.fields",

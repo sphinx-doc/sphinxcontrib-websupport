@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime
 
 import sqlalchemy
 from sqlalchemy.orm import aliased
@@ -72,7 +72,7 @@ class SQLAlchemyStorage(StorageBackend):
                 raise CommentNotAllowedError(msg)
 
         comment = Comment(text, displayed, username, 0,
-                          time or datetime.now(tz=timezone.utc), proposal, proposal_diff)
+                          time or datetime.now(), proposal, proposal_diff)  # noqa: DTZ005
         session.add(comment)
         session.flush()
         # We have to flush the session before setting the path so the
