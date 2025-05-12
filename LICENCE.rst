@@ -2,7 +2,7 @@ License for sphinxcontrib-websupport
 ====================================
 
 Copyright (c) 2007-2018 by the Sphinx team
-(see https://github.com/sphinx-doc/sphinx/blob/master/AUTHORS).
+(see https://github.com/sphinx-doc/sphinx/blob/master/AUTHORS.rst).
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
