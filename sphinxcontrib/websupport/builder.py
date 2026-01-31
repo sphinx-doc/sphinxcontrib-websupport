@@ -9,7 +9,6 @@ import shutil
 from os import path
 from typing import TYPE_CHECKING, Any
 
-from docutils.io import StringOutput
 from sphinx.jinja2glue import BuiltinTemplateLoader
 from sphinx.util.osutil import copyfile, ensuredir, os_path, relative_uri
 
@@ -80,7 +79,6 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.globalcontext['no_search_suffix'] = True
 
     def write_doc(self, docname: str, doctree: nodes.document) -> None:
-        destination = StringOutput(encoding='utf-8')
         doctree.settings = self.docsettings
 
         self.secnumbers = self.env.toc_secnumbers.get(docname, {})
@@ -88,12 +86,12 @@ class WebSupportBuilder(PickleHTMLBuilder):
         self.imgpath = '/' + posixpath.join(self.virtual_staticdir, self.imagedir)
         self.dlpath = '/' + posixpath.join(self.virtual_staticdir, '_downloads')
         self.current_docname = docname
-        self.docwriter.write(doctree, destination)
-        self.docwriter.assemble_parts()
-        body = self.docwriter.parts['fragment']
-        metatags = self.docwriter.clean_meta
+        visitor = self.create_translator(doctree, self)
+        doctree.walkabout(visitor)
+        body = ''.join(visitor.fragment)
+        clean_meta = ''.join(visitor.meta[2:])
 
-        ctx = self.get_doc_context(docname, body, metatags)
+        ctx = self.get_doc_context(docname, body, clean_meta)
         self.handle_page(docname, ctx, event_arg=doctree)
 
     def write_doc_serialized(self, docname: str, doctree: nodes.document) -> None:
