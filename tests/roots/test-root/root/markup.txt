@@ -369,7 +369,7 @@ Index markup
    pair: entry; pair
    double: entry; double
    triple: index; entry; triple
-   keyword: with
+   pair: keyword; with
    see: from; to
    seealso: fromalso; toalso
 
