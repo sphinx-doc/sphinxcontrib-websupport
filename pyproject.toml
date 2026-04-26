@@ -42,7 +42,7 @@ classifiers = [
 ]
 dependencies = [
     "jinja2",
-    "Sphinx>=5",
+    "Sphinx>=7.4.0",
     "sphinxcontrib-serializinghtml",
 ]
 dynamic = ["version"]
