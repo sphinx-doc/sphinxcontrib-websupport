@@ -1,3 +1,9 @@
+In development
+==========================
+
+* Raise minimum required Sphinx version to 7.4
+* Use recommended ``.jinja`` suffix for Jinja templates
+
 Release 2.0.0 (2024-07-28)
 ==========================
 
